@@ -1,7 +1,6 @@
 import QtQuick
 import QtQuick.Controls 2.15
 import QtQuick.Layouts
-import ArchNote.View
 
 ApplicationWindow {
     width: 1920

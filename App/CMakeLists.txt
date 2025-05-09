@@ -9,5 +9,5 @@ target_link_libraries(ArchNote PRIVATE
         Qt6::Gui
         Qt6::Quick
         ArchNoteAppQml
-        ArchNoteAppQmlView
 )
+qt_import_qml_plugins(ArchNote)

@@ -1,15 +1,11 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
-#include <qqmlextensionplugin.h>
-#include <QtPlugin>
 
 #include "app_environment.h"
 
 
 int main(int argc, char *argv[])
 {
-    Q_IMPORT_QML_PLUGIN(ArchNoteAppQmlPlugin)
-    Q_IMPORT_QML_PLUGIN(ArchNoteAppQmlViewPlugin)
 
     QGuiApplication app(argc, argv);
 
@@ -20,7 +16,7 @@ int main(int argc, char *argv[])
         &app,
         []() { QCoreApplication::exit(-1); },
         Qt::QueuedConnection);
-    engine.loadFromModule("ArchNote", "Main");
+    engine.loadFromModule("Qml", "Main");
 
     return app.exec();
 }
