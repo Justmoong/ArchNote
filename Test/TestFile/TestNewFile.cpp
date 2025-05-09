@@ -16,7 +16,7 @@ void TestNewFile::initTestCase()
 
 void TestNewFile::testNewNoteHeaderFile()
 {
-    QString headerOutputDir = outputDir + "/Header.noteheader" + QString::number(NoteID);
+    QString headerOutputDir = outputDir + "/Header" + QString::number(NoteID) + ".noteheader";
     QFile file(headerOutputDir);
     QVERIFY2(file.open(QIODevice::WriteOnly | QIODevice::Text), "Could not open header file");
 
@@ -30,7 +30,7 @@ void TestNewFile::testNewNoteHeaderFile()
 
 void TestNewFile::testNewNoteContentsFile()
 {
-    QString contentsOutputDir = outputDir + "/Contents.md" + QString::number(NoteID);
+    QString contentsOutputDir = outputDir + "/Contents" + QString::number(NoteID) + ".md";
     QFile file(contentsOutputDir);
     QVERIFY2(file.open(QIODevice::WriteOnly | QIODevice::Text), "Could not open contents file");
 

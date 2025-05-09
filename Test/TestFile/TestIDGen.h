@@ -4,17 +4,18 @@
 
 #pragma once
 #include <QTest>
+#include <QDebug>
 
 #include <QRandomGenerator>
 #include <QString>
 
-class TestIDGen: QObject {
+class TestIDGen: public QObject {
     Q_OBJECT
 
 private:
     QString RandomID;
 
 private slots:
-    void testIDGen();
+    void testNewIDGen();
 
 };

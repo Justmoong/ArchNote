@@ -7,10 +7,16 @@ qt6_add_executable(ArchNoteTests
         ${CPP_HEADERS}
 )
 
+set(CMAKE_AUTOMOC ON)
+
 find_package(Qt6 REQUIRED COMPONENTS Test)
 
 set_target_properties(ArchNoteTests PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY "Test/.output"
+)
+
+target_sources(ArchNoteTests PRIVATE
+        TestRegistry.cpp
 )
 
 target_link_libraries(ArchNoteTests PRIVATE
