@@ -1,12 +1,9 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 
-#include "app_environment.h"
-
 
 int main(int argc, char *argv[])
 {
-
     QGuiApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
