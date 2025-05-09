@@ -16,23 +16,4 @@ Rectangle {
     height: Constants.height
 
     color: Constants.backgroundColor
-
-    Column {
-        id: column
-        width: mainWindow.width
-        height: mainWindow.height
-
-        Row {
-            id: navigationBar
-            width: column.width
-            height: 50
-
-            Rectangle {
-                id: navigationBarBackground
-                width: navigationBar.width
-                height: navigationBar.height
-                color: "#7c7b7b"
-            }
-        }
-    }
 }

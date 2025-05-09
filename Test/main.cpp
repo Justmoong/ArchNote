@@ -3,7 +3,9 @@
 //
 
 #pragma once
-#include "${HEADER_FILENAME}"
+#include <QTest>
+
+QTEST_MAIN(TestClass)
 
 int main()
 {

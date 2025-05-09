@@ -3,7 +3,8 @@ add_executable(ArchNoteTests
         ${CPP_SOURCES}
 )
 
-# 테스트 전용 출력 디렉토리 설정 (예: build/tests/)
+find_package(Qt6 REQUIRED COMPONENTS Test)
+
 set_target_properties(ArchNoteTests PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY "Test/output"
 )

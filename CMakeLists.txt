@@ -25,3 +25,5 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
 target_link_libraries(ArchNote PRIVATE Qt6::Core Qt6::Gui Qt6::Quick)
+
+enable_testing()

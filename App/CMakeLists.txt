@@ -1,4 +1,4 @@
-add_executable(ArchNote
+qt_add_executable(ArchNote
         main.cpp
 )
 
