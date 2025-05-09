@@ -16,7 +16,7 @@ add_subdirectory(Test EXCLUDE_FROM_ALL)
 
 set_target_properties(ArchNote PROPERTIES
         MACOSX_BUNDLE TRUE
-#        MACOSX_BUNDLE_INFO_PLIST "${CMAKE_SOURCE_DIR}/App/Info.plist"
+        WIN32_EXECUTABLE TRUE
 )
 
 set(CMAKE_CXX_STANDARD 20)
