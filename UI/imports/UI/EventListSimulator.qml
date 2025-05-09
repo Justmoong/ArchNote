@@ -18,7 +18,7 @@ QtObject {
     }
 
     Component.onCompleted: {
-        EventSystem.init(Qt.resolvedUrl("EventListModel.Qml"))
+        EventSystem.init(Qt.resolvedUrl("EventListModel.TestQml"))
         if (simulator.active)
             timer.start()
     }
