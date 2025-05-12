@@ -1,5 +1,3 @@
-add_subdirectory(TestQml)
-
 file(GLOB_RECURSE CPP_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*.cpp")
 file(GLOB_RECURSE CPP_HEADERS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*.h")
 qt6_add_executable(ArchNoteTests
@@ -8,6 +6,8 @@ qt6_add_executable(ArchNoteTests
 )
 
 set(CMAKE_AUTOMOC ON)
+set (CMAKE_AUTORCC ON)
+set (CMAKE_AUTOUIC ON)
 
 find_package(Qt6 REQUIRED COMPONENTS Test)
 
