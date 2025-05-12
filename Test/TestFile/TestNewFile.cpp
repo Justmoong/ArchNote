@@ -10,7 +10,7 @@ void TestNewFile::initTestCase()
     NoteID = QRandomGenerator::global()->bounded(quint64(1000000000000000));
     noteHeader = "Placeholder Header";
     noteContents = "# Placeholder markdown Coentents";
-    outputDir = "TestNewFile/note_" + QString::number(NoteID);;
+    outputDir = "" + QString::number(NoteID);;
     QDir().mkpath(outputDir);
 }
 
