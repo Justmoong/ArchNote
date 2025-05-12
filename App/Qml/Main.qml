@@ -4,32 +4,38 @@ import QtQuick.Layouts
 
 ApplicationWindow {
     id: window
-    height: 1080
+    width: 1440
+    height: 900
     visible: true
-    width: 800
 
     Rectangle {
         id: titleBar
-
-        color: "transparent"
-        height: 40
         width: parent.width
+        height: 40
+        color: "transparent"
 
         MouseArea {
             id: dragArea
-
             anchors.fill: parent
-            drag.target: null
+            acceptedButtons: Qt.LeftButton
+            property bool dragging: false
 
-            onPressed: {
-                window.startSystemMove();
+            onPressed: dragging = true
+            onReleased: dragging = false
+
+            onPositionChanged: {
+                if (dragging) {
+                    window.startSystemMove()
+                    dragging = false
+                }
             }
         }
     }
+
     ContentsView {
-        anchors.bottom: parent.bottom
+        anchors.top: titleBar.bottom
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.top: titleBar.bottom
+        anchors.bottom: parent.bottom
     }
 }
