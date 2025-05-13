@@ -17,7 +17,7 @@ void macTitleBarTransparent(QWindow* window)
     NSView* nsView = reinterpret_cast<NSView*>(window->winId());
     NSWindow* nsWindow = [nsView window];
 
-    if (!nsWindow) return; // 보호
+    if (!nsWindow) return;
 
     [nsWindow setTitlebarAppearsTransparent:YES];
     [nsWindow setStyleMask:([nsWindow styleMask] | NSWindowStyleMaskFullSizeContentView)];

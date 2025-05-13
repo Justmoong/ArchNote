@@ -3,6 +3,7 @@ qt_add_executable(ArchNote
 )
 
 add_subdirectory(Qml)
+add_subdirectory (File)
 
 target_link_libraries(ArchNote PRIVATE
         Qt6::Core
