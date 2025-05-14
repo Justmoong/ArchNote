@@ -9,11 +9,46 @@ Check out https://doc.qt.io/qtcreator/creator-quick-ui-forms.html for details on
 import QtQuick
 import QtQuick.Controls
 import UI
+import QtQuick.Layouts
 
-Rectangle {
-    id: mainWindow
-    width: Constants.width
-    height: Constants.height
+Item {
 
-    color: Constants.backgroundColor
+    Rectangle {
+        id: mainWindow
+        anchors.fill: parent
+
+        RowLayout {
+            id: windowLayout
+            anchors.fill: parent
+
+            spacing: 0
+
+            ColumnLayout {
+                id: sideBarView
+                Layout.fillHeight: true
+                Layout.preferredWidth: 200
+                Layout.minimumWidth: 100
+                Layout.maximumWidth: 600
+            }
+
+            ColumnLayout {
+                id: centerView
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                Layout.preferredWidth: 600
+                Layout.minimumWidth: 400
+
+                //                NotePadView {
+                //                }
+            }
+
+            ColumnLayout {
+                id: propertiesBarView
+                Layout.fillHeight: true
+                Layout.preferredWidth: 200
+                Layout.minimumWidth: 100
+                Layout.maximumWidth: 600
+            }
+        }
+    }
 }

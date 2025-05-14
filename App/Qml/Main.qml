@@ -7,6 +7,9 @@ ApplicationWindow {
     width: 1440
     height: 900
     visible: true
+    minimumWidth: 720
+    minimumHeight: 480
+
 
     Rectangle {
         id: titleBar
@@ -32,10 +35,18 @@ ApplicationWindow {
         }
     }
 
-    ContentsView {
+    Rectangle {
+        id: windowBackground
         anchors.top: titleBar.bottom
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
+
+        color: '#373737'
+
+        ContentsView {
+            anchors.fill: parent
+
+        }
     }
 }
