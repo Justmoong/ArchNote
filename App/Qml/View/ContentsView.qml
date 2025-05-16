@@ -20,6 +20,12 @@ Item {
                 Layout.preferredWidth: 200
                 Layout.minimumWidth: 100
                 Layout.maximumWidth: 600
+
+                LXButton {
+                    mode: 1
+                    labelText: "Hello World!"
+
+                }
             }
 
             ColumnLayout {

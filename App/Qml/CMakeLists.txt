@@ -1,4 +1,5 @@
 add_subdirectory(View)
+add_subdirectory (Components)
 
 file(GLOB_RECURSE QML_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*.qml")
 qt_add_qml_module(ArchNoteAppQml
