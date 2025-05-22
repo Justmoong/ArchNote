@@ -1,13 +1,17 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQuickWindow>
+#include <QtSvg/QSvgRenderer>
 #include "MacTitleBarTransparent.h"
+#include <QtQml/qqml.h>
 
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
+
+    qmlRegisterType<QSvgRenderer>("QtSvg", 1, 15, "SvgRenderer");
 
     QObject::connect(
         &engine,

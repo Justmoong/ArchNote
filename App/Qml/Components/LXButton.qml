@@ -3,7 +3,7 @@ import QtQuick.Controls 2.15
 
 Rectangle {
     id: lxButton
-    width: buttonText.implicitWidth + 8
+    width: buttonText.implicitWidth + 16
     height: 22
     radius: 6
 

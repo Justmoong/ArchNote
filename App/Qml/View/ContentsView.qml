@@ -21,10 +21,9 @@ Item {
                 Layout.minimumWidth: 100
                 Layout.maximumWidth: 600
 
-                LXButton {
-                    mode: 1
-                    labelText: "Hello World!"
-
+                Sidebar {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
                 }
             }
 
