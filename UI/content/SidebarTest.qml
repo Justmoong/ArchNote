@@ -19,6 +19,11 @@ Rectangle {
             RowLayout {
                 id: sidebarNavigation
                 anchors.fill: parent
+                anchors.rightMargin: 0
+                anchors.bottomMargin: 212
+                anchors.leftMargin: 0
+                anchors.topMargin: -212
+                alignment: "AlignCenter"
 
                 Text {
                     id: name
