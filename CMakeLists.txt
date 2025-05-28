@@ -28,11 +28,11 @@ set(CMAKE_AUTOUIC ON)
 target_link_libraries(ArchNote PRIVATE Qt6::Core Qt6::Gui Qt6::Quick)
 
 file(GLOB ICON_FILES
-        "${CMAKE_SOURCE_DIR}/Resources/Icons/*.svg"
+        "Resources/Icons/*.svg"  # 상대 경로
 )
-
 qt_add_resources(ArchNote "resources"
         PREFIX "/Icons"
+        BASE Resources/Icons
         FILES ${ICON_FILES}
 )
 
