@@ -1,0 +1,3 @@
+[submodule "lib/lib/DSSvg"]
+	path = lib/lib/DSSvg
+	url = https://github.com/Justmoong/DSSvg.git
