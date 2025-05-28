@@ -13,6 +13,7 @@ qt_standard_project_setup(REQUIRES 6.8)
 
 add_subdirectory(App)
 add_subdirectory(Test EXCLUDE_FROM_ALL)
+add_subdirectory (lib/DSSvg)
 
 set_target_properties(ArchNote PROPERTIES
         MACOSX_BUNDLE TRUE

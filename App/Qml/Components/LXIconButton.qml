@@ -104,7 +104,7 @@ Rectangle {
 }
 
 // Usage Example
-// LXIconButton {
+// DSIconButton {
 //     source: "qrc:/icons/save.svg"
 //     iconSize: 24
 //     mode: 1

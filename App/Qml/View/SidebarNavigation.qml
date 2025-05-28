@@ -26,32 +26,32 @@ Item {
         // spacing:     // 버튼 사이의 수평 간격(원하는 값으로 조정)
 
 
-        LXButton {
+        DSButton {
             labelText: "Library"
             onClicked: selectLibrary()
         }
 
-        LXButton {
+        DSButton {
             labelText: "Projects"
             onClicked: selectProjects()
         }
 
-        LXButton {
+        DSButton {
             labelText: "Bookmarks"
             onClicked: selectBookmarks()
         }
 
-        LXButton {
+        DSButton {
             labelText: "RSS"
             onClicked: selectRSS()
         }
 
-        LXButton {
+        DSButton {
             labelText: "Archive"
             onClicked: selectArchive()
         }
 
-        LXButton {
+        DSButton {
             labelText: "Trash"
             onClicked: selectTrash()
         }
