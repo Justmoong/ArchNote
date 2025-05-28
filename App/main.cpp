@@ -4,7 +4,7 @@
 #include <QtSvg/QSvgRenderer>
 #include "MacTitleBarTransparent.h"
 #include <QtQml/qqml.h>
-#include <lib/DSSvg>
+#include <DSSvg>
 
 int main(int argc, char *argv[])
 {
