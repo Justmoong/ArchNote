@@ -19,43 +19,47 @@ Item {
     signal selectTrash()
 
     RowLayout {
-        id: sidebarNavigation
-        anchors.horizontalCenter: parent.horizontalCenter
+        spacing: 12
+        anchors.margins: 12
         anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        // spacing:     // 버튼 사이의 수평 간격(원하는 값으로 조정)
+        anchors.left: parent.left
 
-
-        DSButton {
-            labelText: "Library"
-            onClicked: selectLibrary()
+        DSIconButton {
+            source: "qrc:/icons/library.svg"
+            elementId: "layer1"              // 아이콘 내부 구조에 맞게 조정
+            iconSize: 24
+            accessibleName: "Library"
+            onClicked: contentModel = libraryModel
         }
 
-        DSButton {
-            labelText: "Projects"
-            onClicked: selectProjects()
+        DSIconButton {
+            source: "qrc:/icons/projects.svg"
+            accessibleName: "Projects"
+            onClicked: contentModel = projectsModel
         }
 
-        DSButton {
-            labelText: "Bookmarks"
-            onClicked: selectBookmarks()
+        DSIconButton {
+            source: "qrc:/icons/bookmark.svg"
+            accessibleName: "Bookmarks"
+            onClicked: contentModel = bookmarksModel
         }
 
-        DSButton {
-            labelText: "RSS"
-            onClicked: selectRSS()
+        DSIconButton {
+            source: "qrc:/icons/rss.svg"
+            accessibleName: "RSS"
+            onClicked: contentModel = rssModel
         }
 
-        DSButton {
-            labelText: "Archive"
-            onClicked: selectArchive()
+        DSIconButton {
+            source: "qrc:/icons/archive.svg"
+            accessibleName: "Archive"
+            onClicked: contentModel = archiveModel
         }
 
-        DSButton {
-            labelText: "Trash"
-            onClicked: selectTrash()
+        DSIconButton {
+            source: "qrc:/icons/trash.svg"
+            accessibleName: "Trash"
+            onClicked: contentModel = trashModel
         }
-
     }
-
 }

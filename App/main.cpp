@@ -4,6 +4,7 @@
 #include <QtSvg/QSvgRenderer>
 #include "MacTitleBarTransparent.h"
 #include <QtQml/qqml.h>
+#include <lib/DSSvg>
 
 int main(int argc, char *argv[])
 {
@@ -11,7 +12,8 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
 
-    qmlRegisterType<QSvgRenderer>("QtSvg", 1, 15, "SvgRenderer");
+    DSSvgImporter::registerProvider(&engine);
+
 
     QObject::connect(
         &engine,
