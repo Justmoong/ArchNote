@@ -7,6 +7,7 @@ Item {
     Rectangle {
         id: mainWindow
         anchors.fill: parent
+        color: "#323232"
 
         RowLayout {
             id: windowLayout

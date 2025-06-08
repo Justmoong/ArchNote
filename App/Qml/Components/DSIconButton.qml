@@ -1,63 +1,48 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
-import DSSvg
 
 Button {
     id: dsIconButton
-    property url source: ""
-    property string elementId: "layer1"
-    property int iconSize: 20
 
-    accessible.name: text
-    implicitWidth: iconSize + leftPadding + rightPadding
-    implicitHeight: iconSize + topPadding + bottomPadding
-    padding: 6
-    focusPolicy: Qt.StrongFocus
+    property url source
+    property bool isActive: false
 
-    contentItem: Item {
-        width: iconSize
-        height: iconSize
+    width: 24
+    height: 24
+    hoverEnabled: true
+
+    contentItem: Image {
+        id: iconImage
+        dsIconButton.source
+        width: 16
+        height: 16
         anchors.centerIn: parent
-
-        DSSvgItem {
-            anchors.fill: parent
-            source: iconButton.source
-            elementId: iconButton.elementId
-            color: iconButton.enabled ? "black" : "#757575"
-            visible: source !== ""
-        }
-
-        Rectangle {
-            visible: source === ""
-            anchors.fill: parent
-            radius: 3
-            color: "#999999"
-        }
     }
 
     background: Rectangle {
-        radius: 6
+        radius: 4
         color: {
-            if (!enabled) return "#BDBDBD"
-            if (iconButton.down) {
-                return "#C0C0C0"
-            } else if (iconButton.hovered) {
-                return "#D6D6D6"
-            } else {
-                return "#E0E0E0"
-            }
+            if (dsIconButton.isActive) return "#1565c0"
+            if (!dsIconButton.enabled) return "transparent"
+            if (dsIconButton.down) return "#C0C0C0"
+            else if (dsIconButton.hovered) return "#cfcfcf"
+            else return "transparent"
         }
-
-        border.color: iconButton.focus ? "#1565C0" : "transparent"
-        border.width: iconButton.focus ? 2 : 0
+        border.color: dsIconButton.focus ? "#1565C0" : "transparent"
+        border.width: dsIconButton.focus ? 2 : 0
     }
 
-    ToolTip.visible: hovered && text !== ""
-    ToolTip.text: text
+    ToolTip {
+        id: dsToolTip
+        visible: dsIconButton.hovered && dsToolTip.text !== ""
+        delay: 500
+    }
+
+    property alias tooltipText: dsToolTip.text
 }
 
 // Usage Example
-// DSIconButton {
+// DSdsIconButton {
 //     source: "qrc:/icons/save.svg"
 //     iconSize: 24
 //     mode: 1

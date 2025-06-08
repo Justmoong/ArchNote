@@ -3,7 +3,7 @@ import QtQuick.Controls 2.15
 import QtQuick.Layouts
 
 Rectangle {
-    color: "red"
+    color: "transparent"
 
     // 사전 정의된 두 개의 모델
     property var libraryModel: ["Doc 1", "Doc 2", "Doc 3"]
@@ -16,13 +16,17 @@ Rectangle {
         spacing: 0
 
         SidebarNavigation {
-            onSelectLibrary: contentModel = libraryModel
+            onLibrarySelected: contentModel = libraryModel
+            onProjectsSelected: contentModel = projectsModel
+            onBookmarksSelected: contentModel = bookmarksModel
+            onRssSelected: contentModel = rssModel
+            onArchiveSelected: contentModel = archiveModel
+            onTrashSelected: contentModel = trashModel
         }
 
         Rectangle {
             Layout.fillWidth: true
             Layout.fillHeight: true
-            color: "black"
 
             ListView {
                 anchors.fill: parent
@@ -30,7 +34,6 @@ Rectangle {
 
                 delegate: Text {
                     text: modelData
-                    color: "white"
                     font.pixelSize: 14
                     anchors.horizontalCenter: parent.horizontalCenter
                 }

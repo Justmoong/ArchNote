@@ -1,19 +1,18 @@
 #include <QGuiApplication>
+#include <qplugin.h>
 #include <QQmlApplicationEngine>
 #include <QQuickWindow>
-#include <QtSvg/QSvgRenderer>
+#include <QQuickStyle>
+#include <QtPlugin>
 #include "MacTitleBarTransparent.h"
 #include <QtQml/qqml.h>
-#include <DSSvg>
 
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
+    QQuickStyle::setStyle("Fusion");
 
     QQmlApplicationEngine engine;
-
-    DSSvgImporter::registerProvider(&engine);
-
 
     QObject::connect(
         &engine,

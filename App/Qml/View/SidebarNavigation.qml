@@ -6,60 +6,78 @@ Item {
     Layout.preferredHeight: 30
     Layout.fillWidth: true
 
-    signal selectLibrary()
+    signal librarySelected()
 
-    signal selectProjects()
+    signal projectsSelected()
 
-    signal selectBookmarks()
+    signal bookmarksSelected()
 
-    signal selectRSS()
+    signal rssSelected()
 
-    signal selectArchive()
+    signal archiveSelected()
 
-    signal selectTrash()
+    signal trashSelected()
+
+    property var currentKey: "library" // 예시: 활성화 표시용
 
     RowLayout {
-        spacing: 12
-        anchors.margins: 12
-        anchors.top: parent.top
+        spacing: 4
+        anchors.margins: 8
         anchors.left: parent.left
+        anchors.verticalCenter: parent.verticalCenter
 
         DSIconButton {
-            source: "qrc:/icons/library.svg"
-            elementId: "layer1"              // 아이콘 내부 구조에 맞게 조정
-            iconSize: 24
-            accessibleName: "Library"
-            onClicked: contentModel = libraryModel
+            "qrc:/Icons/library@3x.png"
+            isActive: currentKey === "library"
+            onClicked: {
+                currentKey = "library"
+                librarySelected()
+            }
         }
 
         DSIconButton {
-            source: "qrc:/icons/projects.svg"
-            accessibleName: "Projects"
-            onClicked: contentModel = projectsModel
+            "qrc:/Icons/projects@3x.png"
+            isActive: currentKey === "projects"
+            onClicked: {
+                currentKey = "projects"
+                projectsSelected()
+            }
         }
 
         DSIconButton {
-            source: "qrc:/icons/bookmark.svg"
-            accessibleName: "Bookmarks"
-            onClicked: contentModel = bookmarksModel
+            "qrc:/Icons/bookmark@3x.png"
+            isActive: currentKey === "bookmarks"
+            onClicked: {
+                currentKey = "bookmarks"
+                bookmarksSelected()
+            }
         }
 
         DSIconButton {
-            source: "qrc:/icons/rss.svg"
-            accessibleName: "RSS"
-            onClicked: contentModel = rssModel
+            "qrc:/Icons/rss@3x.png"
+            isActive: currentKey === "rss"
+            onClicked: {
+                currentKey = "rss"
+                rssSelected()
+            }
         }
 
         DSIconButton {
-            source: "qrc:/icons/archive.svg"
-            accessibleName: "Archive"
-            onClicked: contentModel = archiveModel
+            "qrc:/Icons/archive@3x.png"
+            isActive: currentKey === "archive"
+            onClicked: {
+                currentKey = "archive"
+                archiveSelected()
+            }
         }
 
         DSIconButton {
-            source: "qrc:/icons/trash.svg"
-            accessibleName: "Trash"
-            onClicked: contentModel = trashModel
+            "qrc:/Icons/checklist@3x.png"
+            isActive: currentKey === "trash"
+            onClicked: {
+                currentKey = "trash"
+                trashSelected()
+            }
         }
     }
 }
