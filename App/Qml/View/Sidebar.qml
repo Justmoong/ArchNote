@@ -5,23 +5,23 @@ import QtQuick.Layouts
 Rectangle {
     color: "transparent"
 
-    // 사전 정의된 두 개의 모델
-    property var libraryModel: ["Doc 1", "Doc 2", "Doc 3"]
+    property var libraryModel: ["lib 1", "lib 2", "lib 3"]
+    property var projectsModel: ["proj 1", "proj 2", "proj 3"]
+    property var bookmarksModel: ["bookmark 1", "bookmark 2", "bookmark 3"]
 
-    // 현재 표시할 모델
-    property var contentModel: libraryModel
+    property var currentModel: libraryModel
 
     ColumnLayout {
         anchors.fill: parent
         spacing: 0
 
         SidebarNavigation {
-            onLibrarySelected: contentModel = libraryModel
-            onProjectsSelected: contentModel = projectsModel
-            onBookmarksSelected: contentModel = bookmarksModel
-            onRssSelected: contentModel = rssModel
-            onArchiveSelected: contentModel = archiveModel
-            onTrashSelected: contentModel = trashModel
+            onLibrarySelected: currentModel = libraryModel
+            onProjectsSelected: currentModel = projectsModel
+            onBookmarksSelected: currentModel = bookmarksModel
+            onRssSelected: currentModel = rssModel
+            onArchiveSelected: currentModel = archiveModel
+            onChecklistSelected: currentModel = checklistModel
         }
 
         Rectangle {
@@ -30,7 +30,7 @@ Rectangle {
 
             ListView {
                 anchors.fill: parent
-                model: contentModel
+                model: currentModel
 
                 delegate: Text {
                     text: modelData

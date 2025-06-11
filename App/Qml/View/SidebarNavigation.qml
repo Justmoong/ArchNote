@@ -16,7 +16,7 @@ Item {
 
     signal archiveSelected()
 
-    signal trashSelected()
+    signal checklistSelected()
 
     property var currentKey: "library" // 예시: 활성화 표시용
 
@@ -41,6 +41,15 @@ Item {
             onClicked: {
                 currentKey = "projects"
                 projectsSelected()
+            }
+        }
+
+        DSIconButton {
+            "qrc:/Icons/checklist@3x.png"
+            isActive: currentKey === "checklist"
+            onClicked: {
+                currentKey = "checklist"
+                checklistSelected()
             }
         }
 
@@ -71,13 +80,6 @@ Item {
             }
         }
 
-        DSIconButton {
-            "qrc:/Icons/checklist@3x.png"
-            isActive: currentKey === "trash"
-            onClicked: {
-                currentKey = "trash"
-                trashSelected()
-            }
-        }
+
     }
 }
