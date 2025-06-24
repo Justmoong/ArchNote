@@ -24,9 +24,7 @@ Button {
         color: {
             if (dsIconButton.isActive) return "#1565c0"
             if (!dsIconButton.enabled) return "transparent"
-            if (dsIconButton.down) return "#C0C0C0"
-            else if (dsIconButton.hovered) return "#cfcfcf"
-            else return "transparent"
+            return "transparent"
         }
         border.color: dsIconButton.focus ? "#1565C0" : "transparent"
         border.width: dsIconButton.focus ? 2 : 0
