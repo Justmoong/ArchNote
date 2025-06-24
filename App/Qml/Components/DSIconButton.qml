@@ -13,7 +13,7 @@ Button {
 
     contentItem: Image {
         id: iconImage
-        dsIconButton.source
+        source: dsIconButton.source
         width: 16
         height: 16
         anchors.centerIn: parent

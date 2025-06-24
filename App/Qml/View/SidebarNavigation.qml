@@ -27,7 +27,7 @@ Item {
         anchors.verticalCenter: parent.verticalCenter
 
         DSIconButton {
-            "qrc:/Icons/library@3x.png"
+            source: "qrc:/Icons/library@3x.png"
             isActive: currentKey === "library"
             onClicked: {
                 currentKey = "library"
@@ -36,7 +36,7 @@ Item {
         }
 
         DSIconButton {
-            "qrc:/Icons/projects@3x.png"
+            source: "qrc:/Icons/projects@3x.png"
             isActive: currentKey === "projects"
             onClicked: {
                 currentKey = "projects"
@@ -45,7 +45,7 @@ Item {
         }
 
         DSIconButton {
-            "qrc:/Icons/checklist@3x.png"
+            source: "qrc:/Icons/checklist@3x.png"
             isActive: currentKey === "checklist"
             onClicked: {
                 currentKey = "checklist"
@@ -54,7 +54,7 @@ Item {
         }
 
         DSIconButton {
-            "qrc:/Icons/bookmark@3x.png"
+            source: "qrc:/Icons/bookmark@3x.png"
             isActive: currentKey === "bookmarks"
             onClicked: {
                 currentKey = "bookmarks"
@@ -63,7 +63,7 @@ Item {
         }
 
         DSIconButton {
-            "qrc:/Icons/rss@3x.png"
+            source: "qrc:/Icons/rss@3x.png"
             isActive: currentKey === "rss"
             onClicked: {
                 currentKey = "rss"
@@ -72,7 +72,7 @@ Item {
         }
 
         DSIconButton {
-            "qrc:/Icons/archive@3x.png"
+            source: "qrc:/Icons/archive@3x.png"
             isActive: currentKey === "archive"
             onClicked: {
                 currentKey = "archive"
