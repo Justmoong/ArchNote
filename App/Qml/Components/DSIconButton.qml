@@ -7,15 +7,15 @@ Button {
     property url source
     property bool isActive: false
 
-    width: 24
-    height: 24
+    width: 30
+    height: 30
     hoverEnabled: true
 
     contentItem: Image {
         id: iconImage
         source: dsIconButton.source
-        width: 16
-        height: 16
+        width: 24
+        height: 24
         anchors.centerIn: parent
     }
 
