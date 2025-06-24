@@ -41,10 +41,12 @@ Button {
     property alias tooltipText: dsToolTip.text
 }
 
-// Usage Example
-// DSdsIconButton {
-//     source: "qrc:/icons/save.svg"
-//     iconSize: 24
-//     mode: 1
-//     onClicked: console.log("Save icon clicked")
+//usage example
+// DSIconButton {
+//     "qrc:/Icons/library@3x.png"
+//     isActive: currentKey === "library"
+//     onClicked: {
+//         currentKey = "library"
+//         librarySelected()
+//     }
 // }
