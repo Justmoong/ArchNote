@@ -1,9 +1,11 @@
 cmake_minimum_required(VERSION 3.31)
 project(ArchNote)
 
-set(CMAKE_PREFIX_PATH "$HOME/Qt-6.8.3-static-install")
-set(QT_BUILD_SHARED_LIBS OFF)
-set(BUILD_SHARED_LIBS OFF CACHE BOOL "Build static libs" FORCE)
+set (CMAKE_PREFIX_PATH
+        "$ENV{HOME}/Qt/6.8.3/macos/lib/cmake"
+        ${CMAKE_PREFIX_PATH}
+)
+
 
 message(STATUS "CMAKE_PREFIX_PATH = ${CMAKE_PREFIX_PATH}")
 
@@ -40,3 +42,28 @@ qt_add_resources(ArchNote "resources"
 qt_import_qml_plugins (ArchNote)
 
 enable_testing()
+
+function (_strip_agl target)
+    if (NOT TARGET ${target})
+        return ()
+    endif ()
+
+    get_target_property (_libs ${target} LINK_LIBRARIES)
+    if (_libs)
+        list (REMOVE_ITEM _libs "-framework" "AGL" AGL)
+        if (_libs)
+            string (JOIN ";" _libs_join ${_libs})
+            set_target_property (${target}
+                    ${target} LINK_LIBRARIES "${_libs_join}")
+        endif ()
+    endif ()
+
+    get_target_property (_opts ${target} LINK_OPTIONS)
+    if (_opts)
+        list (REMOVE_ITEM _opts "-framework" "AGL")
+        if (_opts)
+            string (JOIN ";" _opts_join ${_opts})
+            set_target_property (${target} LINK_OPTIONS "${_opts_join}")
+        endif ()
+    endif ()
+endfunction ()
