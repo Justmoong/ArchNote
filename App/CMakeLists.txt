@@ -14,8 +14,13 @@ target_link_libraries(ArchNote PRIVATE
 
 target_sources (ArchNote PRIVATE
         main.cpp
-        MacTitleBarTransparent.mm
-        MacTitleBarTransparent.h
 )
 
 qt_import_qml_plugins(ArchNote)
+
+if(APPLE)
+    target_sources(ArchNote PRIVATE
+            MacTitleBarTransparent.mm
+            MacTitleBarTransparent.h
+    )
+endif()

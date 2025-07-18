@@ -4,7 +4,10 @@
 #include <QQuickWindow>
 #include <QQuickStyle>
 #include <QtPlugin>
+#ifdef Q_OS_MAC
 #include "MacTitleBarTransparent.h"
+#endif
+
 #include <QtQml/qqml.h>
 
 int main(int argc, char *argv[])
@@ -25,10 +28,11 @@ int main(int argc, char *argv[])
     if (!engine.rootObjects().isEmpty())
     {
         auto window = qobject_cast<QQuickWindow*>(engine.rootObjects().first());
+#ifdef Q_OS_MAC
         if (window)
-        {
             macTitleBarTransparent(window);
-        }
+#endif
+
     }
 
     return app.exec();
