@@ -1,15 +1,19 @@
 cmake_minimum_required(VERSION 3.31)
 project(ArchNote)
 
-set (CMAKE_PREFIX_PATH
-        "$ENV{HOME}/Qt/6.8.3/gcc_64/lib/cmake"
-        ${CMAKE_PREFIX_PATH}
+if (UNIX)
+    set (CMAKE_PREFIX_PATH
+            "$ENV{HOME}/Qt/6.8.3/gcc_64"
+            ${CMAKE_PREFIX_PATH}
 )
-#set (CMAKE_PREFIX_PATH
-#        "$ENV{HOME}/Qt/6.8.3/macos/lib/cmake"
-#        ${CMAKE_PREFIX_PATH}
-#)
+endif ()
 
+if (APPLE)
+    set (CMAKE_PREFIX_PATH
+            "$ENV{HOME}/Qt/6.8.3/macos"
+            ${CMAKE_PREFIX_PATH}
+)
+endif ()
 
 message(STATUS "CMAKE_PREFIX_PATH = ${CMAKE_PREFIX_PATH}")
 
