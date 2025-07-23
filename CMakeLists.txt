@@ -24,10 +24,19 @@ qt_standard_project_setup(REQUIRES 6.8)
 add_subdirectory(App)
 add_subdirectory(Test EXCLUDE_FROM_ALL)
 
-set_target_properties(ArchNote PROPERTIES
+if (APPLE)
+    set_target_properties(ArchNote PROPERTIES
         MACOSX_BUNDLE TRUE
+    )
+elseif (WIN32)
+    set_target_properties(ArchNote PROPERTIES
         WIN32_EXECUTABLE TRUE
-)
+    )
+elseif (UNIX)
+    set_target_properties(ArchNote PROPERTIES
+        OUTPUT_NAME "Arch Note"
+    )
+endif ()
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_AUTOMOC ON)
