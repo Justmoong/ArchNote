@@ -12,3 +12,4 @@ target_link_libraries(ArchNote PRIVATE
 )
 
 qt_import_qml_plugins(ArchNote)
+qt_finalize_executable(ArchNote)

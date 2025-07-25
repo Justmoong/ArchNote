@@ -33,6 +33,7 @@ int main(int argc, char *argv[])
             macTitleBarTransparent(window);
 #endif
 
+
     }
 
     return app.exec();
