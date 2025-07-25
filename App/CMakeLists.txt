@@ -1,5 +1,6 @@
 # ArchNote 실행 파일 정의
 qt_add_executable(ArchNote
+        MANUAL_FINALIZATION
     main.cpp
 )
 
