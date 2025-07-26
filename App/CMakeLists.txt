@@ -19,5 +19,4 @@ target_link_libraries(ArchNote PRIVATE
         Qt6::QuickControls2
 )
 
-# QML import 플러그인 자동 링크
 qt_import_qml_plugins(ArchNote)

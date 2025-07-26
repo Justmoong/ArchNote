@@ -6,7 +6,16 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY  "${CMAKE_BINARY_DIR}/bin")
 
 message(STATUS "CMAKE_PREFIX_PATH = ${CMAKE_PREFIX_PATH}")
 
-find_package (Qt6 REQUIRED COMPONENTS Core Gui Quick Qml QuickControls2)
+find_package(Qt6 REQUIRED COMPONENTS
+        Core
+        Gui
+        Quick
+        Qml
+        QuickControls2
+        QuickTemplates2
+        QuickLayouts
+)
+
 
 qt_standard_project_setup(REQUIRES 6.8)
 
@@ -15,15 +24,30 @@ add_subdirectory(Test EXCLUDE_FROM_ALL)
 
 if (APPLE)
     set_target_properties(ArchNote PROPERTIES
-        MACOSX_BUNDLE TRUE
+            MACOSX_BUNDLE TRUE
     )
 elseif (WIN32)
     set_target_properties(ArchNote PROPERTIES
-        WIN32_EXECUTABLE TRUE
+            WIN32_EXECUTABLE TRUE
     )
 elseif (UNIX)
     set_target_properties(ArchNote PROPERTIES
-        OUTPUT_NAME "Arch Note"
+            OUTPUT_NAME "Arch Note"
+    )
+endif ()
+
+
+if (APPLE)
+    set_target_properties(ArchNote PROPERTIES
+            MACOSX_BUNDLE TRUE
+    )
+elseif (WIN32)
+    set_target_properties(ArchNote PROPERTIES
+            WIN32_EXECUTABLE TRUE
+    )
+elseif (UNIX)
+    set_target_properties(ArchNote PROPERTIES
+            OUTPUT_NAME "Arch Note"
     )
 endif ()
 
@@ -32,7 +56,15 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-target_link_libraries (ArchNote PRIVATE Qt6::Core Qt6::Gui Qt6::Quick Qt6::QuickControls2)
+target_link_libraries(ArchNote PRIVATE
+        Qt6::Core
+        Qt6::Gui
+        Qt6::Quick
+        Qt6::QuickControls2
+        Qt6::QuickTemplates2
+        Qt6::QuickLayouts
+)
+
 target_include_directories (ArchNote PRIVATE
         ${CMAKE_SOURCE_DIR}/lib
 )
@@ -45,7 +77,6 @@ qt_add_resources(ArchNote "resources"
         BASE Resources/Icons
         FILES ${ICON_FILES}
 )
-qt_import_qml_plugins (ArchNote)
 
 enable_testing()
 

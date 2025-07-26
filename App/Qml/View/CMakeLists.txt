@@ -6,6 +6,11 @@ qt_add_qml_module (ArchNoteAppQmlView
         ${QML_SOURCES}
 )
 
+qt_add_resources(ArchNoteAppQmlView "view_qml_files"
+        PREFIX "/qt/qml/View"
+        FILES ${QML_SOURCES}
+)
+
 target_link_libraries(ArchNote PRIVATE
         Qt6::Core
         Qt6::Gui
