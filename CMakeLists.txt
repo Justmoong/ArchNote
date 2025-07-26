@@ -4,20 +4,6 @@ project(ArchNote)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY  "${CMAKE_BINARY_DIR}/bin")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY  "${CMAKE_BINARY_DIR}/bin")
 
-if (UNIX)
-    set (CMAKE_PREFIX_PATH
-            "$ENV{HOME}/Qt/6.8.3/gcc_64"
-            ${CMAKE_PREFIX_PATH}
-)
-endif ()
-
-if (APPLE)
-    set (CMAKE_PREFIX_PATH
-            "$ENV{HOME}/Qt/6.8.3/macos"
-            ${CMAKE_PREFIX_PATH}
-)
-endif ()
-
 message(STATUS "CMAKE_PREFIX_PATH = ${CMAKE_PREFIX_PATH}")
 
 find_package (Qt6 REQUIRED COMPONENTS Core Gui Quick Qml QuickControls2)
@@ -87,4 +73,3 @@ function (_strip_agl target)
         endif ()
     endif ()
 endfunction ()
-set_property(TARGET ArchNote PROPERTY LINK_OPTIONS "-Wl,--as-needed")

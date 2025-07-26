@@ -1,16 +1,23 @@
-# ArchNote 실행 파일 정의
 qt_add_executable(ArchNote
-        MANUAL_FINALIZATION
-    main.cpp
+        main.cpp
 )
+
+if (APPLE)
+    target_sources(ArchNote PRIVATE
+            MacTitleBarTransparent.h
+            MacTitleBarTransparent.mm
+    )
+endif ()
 
 add_subdirectory(Qml)
-add_subdirectory(File)
 
 target_link_libraries(ArchNote PRIVATE
-    Qt6::Core Qt6::Gui Qt6::Quick
-    ArchNoteAppQml
+        Qt6::Core
+        Qt6::Gui
+        Qt6::Quick
+        Qt6::Qml
+        Qt6::QuickControls2
 )
 
+# QML import 플러그인 자동 링크
 qt_import_qml_plugins(ArchNote)
-qt_finalize_executable(ArchNote)

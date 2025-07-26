@@ -3,7 +3,6 @@
 #include <QQmlApplicationEngine>
 #include <QQuickWindow>
 #include <QQuickStyle>
-#include <QtPlugin>
 #ifdef Q_OS_MAC
 #include "MacTitleBarTransparent.h"
 #endif
@@ -17,13 +16,17 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
 
+    engine.addImportPath("qrc:/qt/qml/");
+
+
     QObject::connect(
         &engine,
         &QQmlApplicationEngine::objectCreationFailed,
         &app,
         []() { QCoreApplication::exit(-1); },
         Qt::QueuedConnection);
-    engine.loadFromModule("Qml", "Main");
+    engine.load(QUrl(u"qrc:/qml/Main.qml"_qs));
+
 
     if (!engine.rootObjects().isEmpty())
     {
