@@ -17,6 +17,8 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
 
     engine.addImportPath("qrc:/qt/qml/");
+    engine.addImportPath(":/qt/qml/");
+
 
 
     QObject::connect(

@@ -17,6 +17,9 @@ target_link_libraries(ArchNote PRIVATE
         Qt6::Quick
         Qt6::Qml
         Qt6::QuickControls2
+        ArchNoteAppQml
+        ArchNoteAppQmlView
+        ArchNoteAppQmlComponents
 )
 
 qt_import_qml_plugins(ArchNote)
