@@ -18,29 +18,3 @@ qt_add_resources(ArchNote "qml_resources"
         FILES
         Main.qml
 )
-
-#target_link_libraries(ArchNote PRIVATE
-#        Qt6::Core
-#        Qt6::Gui
-#        Qt6::Quick
-#        ArchNoteAppQml
-#        ArchNoteAppQmlView
-#        ArchNoteAppQmlComponents
-#)
-#
-#set(qml_dest "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Qml")
-#set_target_properties(ArchNoteAppQml PROPERTIES
-#        LIBRARY_OUTPUT_DIRECTORY "${qml_dest}"
-#        RUNTIME_OUTPUT_DIRECTORY "${qml_dest}"
-#)
-#
-## View와 Components 모듈도 같은 위치에 설정
-#set_target_properties(ArchNoteAppQmlView PROPERTIES
-#        LIBRARY_OUTPUT_DIRECTORY "${qml_dest}"
-#        RUNTIME_OUTPUT_DIRECTORY "${qml_dest}"
-#)
-
-set_target_properties(ArchNoteAppQmlComponents PROPERTIES
-    LIBRARY_OUTPUT_DIRECTORY  "${qml_dest}"
-    RUNTIME_OUTPUT_DIRECTORY  "${qml_dest}"
-)
