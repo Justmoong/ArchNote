@@ -1,8 +1,37 @@
-cmake_minimum_required(VERSION 3.31)
+cmake_minimum_required (VERSION 3.24)
 project(ArchNote)
+
+project (ArchNote LANGUAGES C CXX)
+
+message (STATUS "SYSROOT=${CMAKE_OSX_SYSROOT}")
+
+set (_sdk_gl "${CMAKE_OSX_SYSROOT}/System/Library/Frameworks/OpenGL.framework/Headers/gl.h")
+if (EXISTS "${_sdk_gl}")
+    message (STATUS "OpenGL.h in SDK: YES -> ${_sdk_gl}")
+else ()
+    message (STATUS "OpenGL.h in SDK: NO")
+endif ()
+
+message (STATUS "GL.h exists? " $<BOOL:$ENV{SDK_GL_H_EXISTS}>)
+
+set (CMAKE_FIND_FRAMEWORK FIRST)
+list (PREPEND CMAKE_SYSTEM_FRAMEWORK_PATH
+        "${CMAKE_OSX_SYSROOT}/System/Library/Frameworks"
+        "${CMAKE_OSX_SYSROOT}/Library/Frameworks")
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY  "${CMAKE_BINARY_DIR}/bin")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY  "${CMAKE_BINARY_DIR}/bin")
+
+set (CMAKE_DISABLE_FIND_PACKAGE_OpenGL ON)
+set (OPENGL_LIBRARIES "-framework OpenGL" CACHE STRING "" FORCE)
+set (OPENGL_gl_LIBRARY "-framework OpenGL" CACHE STRING "" FORCE)
+set (OPENGL_opengl_LIBRARY "-framework OpenGL" CACHE STRING "" FORCE)
+set (OPENGL_INCLUDE_DIR "" CACHE PATH "" FORCE)
+
+set (CMAKE_DISABLE_FIND_PACKAGE_WrapOpenGL ON)
+add_library (WrapOpenGL::WrapOpenGL INTERFACE IMPORTED)
+target_link_libraries (WrapOpenGL::WrapOpenGL INTERFACE "-framework OpenGL")
+set (WrapOpenGL_FOUND TRUE)
 
 message(STATUS "CMAKE_PREFIX_PATH = ${CMAKE_PREFIX_PATH}")
 
@@ -18,6 +47,7 @@ find_package(Qt6 REQUIRED COMPONENTS
         QuickTemplates2
         QuickLayouts
 )
+
 find_package (KF6 REQUIRED COMPONENTS
         CoreAddons
         I18n
@@ -25,8 +55,8 @@ find_package (KF6 REQUIRED COMPONENTS
         Svg
 )
 
-
 qt_standard_project_setup(REQUIRES 6.8)
+set (CMAKE_DISABLE_FIND_PACKAGE_OpenGL ON)
 
 add_subdirectory(App)
 add_subdirectory(Test EXCLUDE_FROM_ALL)
@@ -57,7 +87,6 @@ target_link_libraries(ArchNote PRIVATE
         Qt6::QuickControls2
         Qt6::QuickTemplates2
         Qt6::QuickLayouts
-        KF6::Svg
 )
 
 target_link_libraries (ArchNote PRIVATE
@@ -79,27 +108,3 @@ qt_add_resources(ArchNote "resources"
 
 enable_testing()
 
-function (_strip_agl target)
-    if (NOT TARGET ${target})
-        return ()
-    endif ()
-
-    get_target_property (_libs ${target} LINK_LIBRARIES)
-    if (_libs)
-        list (REMOVE_ITEM _libs "-framework" "AGL" AGL)
-        if (_libs)
-            string (JOIN ";" _libs_join ${_libs})
-            set_target_property (${target}
-                    ${target} LINK_LIBRARIES "${_libs_join}")
-        endif ()
-    endif ()
-
-    get_target_property (_opts ${target} LINK_OPTIONS)
-    if (_opts)
-        list (REMOVE_ITEM _opts "-framework" "AGL")
-        if (_opts)
-            string (JOIN ";" _opts_join ${_opts})
-            set_target_property (${target} LINK_OPTIONS "${_opts_join}")
-        endif ()
-    endif ()
-endfunction ()

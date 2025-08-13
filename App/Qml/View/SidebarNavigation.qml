@@ -83,3 +83,9 @@ Item {
 
     }
 }
+
+// DSIconButton {
+//     iconSource: "qrc:/icons/zoom_in.svg"
+//     iconSize: 22
+//     onClicked: console.log("clicked")
+// }

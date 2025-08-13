@@ -6,6 +6,8 @@ if (APPLE)
     target_sources(ArchNote PRIVATE
             MacTitleBarTransparent.h
             MacTitleBarTransparent.mm
+            SvgIconItem.cpp
+            SvgIconItem.h
     )
 endif ()
 
@@ -21,5 +23,3 @@ target_link_libraries(ArchNote PRIVATE
         ArchNoteAppQmlView
         ArchNoteAppQmlComponents
 )
-
-qt_import_qml_plugins(ArchNote)

@@ -1,7 +1,6 @@
 import QtQuick
-import QtQuick.Controls 2.15
+import QtQuick.Controls
 import QtQuick.Layouts
-
 import View
 
 ApplicationWindow {
@@ -12,43 +11,43 @@ ApplicationWindow {
     minimumWidth: 720
     minimumHeight: 480
 
+    // macOS 상단 투명 처리를 위해 창 클리어 컬러를 투명으로
+    color: "transparent"
 
-    Rectangle {
+    // 상단 드래그/버튼 영역: header를 사용하면 구조가 명확하고
+    // 콘텐츠와의 경계 관리가 쉬워집니다.
+    header: Rectangle {
         id: titleBar
-        width: parent.width
         height: 40
-        color: "transparent"
+        color: "#373737"
+
+        // 필요시 좌측 상단에 앱 버튼/탭 등을 배치
+        // Row { anchors.fill: parent; ... }
 
         MouseArea {
             id: dragArea
             anchors.fill: parent
             acceptedButtons: Qt.LeftButton
-            property bool dragging: false
-
-            onPressed: dragging = true
-            onReleased: dragging = false
-
-            onPositionChanged: {
-                if (dragging) {
+            hoverEnabled: false
+            // 드래그는 onPressed에서 즉시 시작하는 것이 안정적
+            onPressed: {
+                if (mouse.button === Qt.LeftButton) {
                     window.startSystemMove()
-                    dragging = false
                 }
             }
+            // 더블클릭 동작을 커스텀으로 넣고 싶다면 여기서 처리
+            // onDoubleClicked: { /* 필요 시 최대화/복원 등 */ }
         }
     }
 
+    // 배경은 전체로 깔고, 상단은 투명 header가 덮는 구조
     Rectangle {
         id: windowBackground
-        anchors.top: titleBar.bottom
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.bottom: parent.bottom
-
-        color: '#373737'
+        anchors.fill: parent
+        color: "#373737"
 
         ContentsView {
             anchors.fill: parent
-
         }
     }
 }

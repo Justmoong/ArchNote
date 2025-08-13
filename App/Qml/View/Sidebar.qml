@@ -34,7 +34,7 @@ Rectangle {
 
                 delegate: Text {
                     text: modelData
-                    font.pixelSize: 14
+                    font.pixelSize: 13
                     anchors.horizontalCenter: parent.horizontalCenter
                 }
             }
