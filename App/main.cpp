@@ -4,7 +4,6 @@
 #include <QQuickWindow>
 #include <QQuickStyle>
 #ifdef Q_OS_MAC
-#include "MacTitleBarTransparent.h"
 #endif
 #include <QtQml/qqml.h>
 #include <QtCore/QString>
@@ -36,15 +35,6 @@ int main(int argc, char *argv[])
         Qt::QueuedConnection);
 
     engine.load(QUrl(u"qrc:/qml/Main.qml"_s));
-
-    if (!engine.rootObjects().isEmpty())
-    {
-        auto window = qobject_cast<QQuickWindow*>(engine.rootObjects().first());
-#ifdef Q_OS_MAC
-        if (window)
-            macTitleBarTransparent(window);
-#endif
-    }
 
     return app.exec();
 }

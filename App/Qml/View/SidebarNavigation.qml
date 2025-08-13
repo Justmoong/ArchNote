@@ -27,8 +27,8 @@ Item {
         anchors.verticalCenter: parent.verticalCenter
 
         DSIconButton {
-            source: "qrc:/Icons/library@3x.png"
-            isActive: currentKey === "library"
+            iconSource: "qrc:/icons/library.svg"
+            iconSize: 22
             onClicked: {
                 currentKey = "library"
                 librarySelected()
@@ -36,47 +36,47 @@ Item {
         }
 
         DSIconButton {
-            source: "qrc:/Icons/projects@3x.png"
-            isActive: currentKey === "projects"
+            iconSource: "qrc:/icons/project.svg"
+            iconSize: 22
             onClicked: {
-                currentKey = "projects"
-                projectsSelected()
+                currentKey = "project"
+                librarySelected()
             }
         }
 
         DSIconButton {
-            source: "qrc:/Icons/checklist@3x.png"
-            isActive: currentKey === "checklist"
+            iconSource: "qrc:/icons/bookmark.svg"
+            iconSize: 22
             onClicked: {
-                currentKey = "checklist"
-                checklistSelected()
+                currentKey = "bookmark"
+                librarySelected()
             }
         }
 
         DSIconButton {
-            source: "qrc:/Icons/bookmark@3x.png"
-            isActive: currentKey === "bookmarks"
-            onClicked: {
-                currentKey = "bookmarks"
-                bookmarksSelected()
-            }
-        }
-
-        DSIconButton {
-            source: "qrc:/Icons/rss@3x.png"
-            isActive: currentKey === "rss"
+            iconSource: "qrc:/icons/rss.svg"
+            iconSize: 22
             onClicked: {
                 currentKey = "rss"
-                rssSelected()
+                librarySelected()
             }
         }
 
         DSIconButton {
-            source: "qrc:/Icons/archive@3x.png"
-            isActive: currentKey === "archive"
+            iconSource: "qrc:/icons/checklist.svg"
+            iconSize: 22
+            onClicked: {
+                currentKey = "checklist"
+                librarySelected()
+            }
+        }
+
+        DSIconButton {
+            iconSource: "qrc:/icons/archive.svg"
+            iconSize: 22
             onClicked: {
                 currentKey = "archive"
-                archiveSelected()
+                librarySelected()
             }
         }
 

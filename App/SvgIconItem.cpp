@@ -4,7 +4,7 @@
 
 // SvgIconItem.cpp (C++)
 #include "SvgIconItem.h"
-#include <KSvg/Renderer>
+#include <KSvg/Svg>
 #include <QPainter>
 #include <QFileInfo>
 #include <QGuiApplication>

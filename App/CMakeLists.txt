@@ -4,14 +4,14 @@ qt_add_executable(ArchNote
 
 if (APPLE)
     target_sources(ArchNote PRIVATE
-            MacTitleBarTransparent.h
-            MacTitleBarTransparent.mm
             SvgIconItem.cpp
             SvgIconItem.h
     )
 endif ()
 
 add_subdirectory(Qml)
+
+find_package (KF6 6.0 REQUIRED COMPONENTS Svg)
 
 target_link_libraries(ArchNote PRIVATE
         Qt6::Core

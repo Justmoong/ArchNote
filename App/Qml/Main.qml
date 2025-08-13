@@ -14,8 +14,7 @@ ApplicationWindow {
     // macOS 상단 투명 처리를 위해 창 클리어 컬러를 투명으로
     color: "transparent"
 
-    // 상단 드래그/버튼 영역: header를 사용하면 구조가 명확하고
-    // 콘텐츠와의 경계 관리가 쉬워집니다.
+    // 상단 드래그/버튼 영역: header를 사용
     header: Rectangle {
         id: titleBar
         height: 40

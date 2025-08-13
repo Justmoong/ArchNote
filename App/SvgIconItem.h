@@ -5,6 +5,7 @@
 // SvgIconItem.h (C++)
 #pragma once
 
+#include <KSvg/Svg>
 #include <QQuickPaintedItem>
 #include <QUrl>
 #include <memory>
