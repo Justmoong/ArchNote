@@ -9,7 +9,10 @@
 #include <QUrl>
 #include <memory>
 
-namespace KSvg { class Renderer; }
+namespace KSvg
+{
+    class Renderer;
+}
 
 class SvgIconItem : public QQuickPaintedItem
 {
@@ -37,8 +40,8 @@ public:
     qreal devicePixelRatio() const { return m_dpr; }
     void setDevicePixelRatio(qreal dpr);
 
-    signals:
-        void sourceChanged();
+signals:
+    void sourceChanged();
     void elementIdChanged();
     void smoothChanged();
     void devicePixelRatioChanged();

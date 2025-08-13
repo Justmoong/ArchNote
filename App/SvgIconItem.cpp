@@ -60,21 +60,27 @@ void SvgIconItem::loadRenderer()
 {
     m_renderer.reset();
 
-    if (!m_source.isEmpty()) {
+    if (!m_source.isEmpty())
+    {
         const QString local = m_source.isLocalFile()
-            ? m_source.toLocalFile()
-            : m_source.toString(); // qrc:/, :/ 등 경로도 허용
+                                  ? m_source.toLocalFile()
+                                  : m_source.toString(); // qrc:/, :/ 등 경로도 허용
 
-        if (!local.isEmpty()) {
+        if (!local.isEmpty())
+        {
             auto renderer = std::make_unique<KSvg::Renderer>();
-            if (renderer->load(local)) {
+            if (renderer->load(local))
+            {
                 m_renderer = std::move(renderer);
                 // 암시 크기 갱신(가능하면 SVG의 뷰박스/요소 크기를 사용)
                 const QRectF b = elementBounds();
-                if (b.isValid() && b.width() > 0 && b.height() > 0) {
+                if (b.isValid() && b.width() > 0 && b.height() > 0)
+                {
                     setImplicitWidth(b.width());
                     setImplicitHeight(b.height());
-                } else {
+                }
+                else
+                {
                     setImplicitWidth(24);
                     setImplicitHeight(24);
                 }
@@ -105,15 +111,18 @@ void SvgIconItem::paint(QPainter* painter)
 
     // 고해상도 디스플레이 고려
     const qreal effectiveDpr = (m_dpr > 0.0)
-        ? m_dpr
-        : (window() ? window()->devicePixelRatio() : qApp->devicePixelRatio());
+                                   ? m_dpr
+                                   : (window() ? window()->devicePixelRatio() : qApp->devicePixelRatio());
 
     painter->save();
     painter->scale(1.0, 1.0); // 필요 시 스케일 조정 지점
 
-    if (!m_elementId.isEmpty() && m_renderer->elementExists(m_elementId)) {
+    if (!m_elementId.isEmpty() && m_renderer->elementExists(m_elementId))
+    {
         m_renderer->render(painter, m_elementId, target);
-    } else {
+    }
+    else
+    {
         m_renderer->render(painter, target);
     }
 
