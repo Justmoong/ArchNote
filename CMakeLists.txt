@@ -6,6 +6,9 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY  "${CMAKE_BINARY_DIR}/bin")
 
 message(STATUS "CMAKE_PREFIX_PATH = ${CMAKE_PREFIX_PATH}")
 
+find_package (ECM REQUIRED NO_MODULE)
+set (CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
+
 find_package(Qt6 REQUIRED COMPONENTS
         Core
         Gui
@@ -15,27 +18,18 @@ find_package(Qt6 REQUIRED COMPONENTS
         QuickTemplates2
         QuickLayouts
 )
+find_package (KF6 REQUIRED COMPONENTS
+        CoreAddons
+        I18n
+        Config
+        Svg
+)
 
 
 qt_standard_project_setup(REQUIRES 6.8)
 
 add_subdirectory(App)
 add_subdirectory(Test EXCLUDE_FROM_ALL)
-
-if (APPLE)
-    set_target_properties(ArchNote PROPERTIES
-            MACOSX_BUNDLE TRUE
-    )
-elseif (WIN32)
-    set_target_properties(ArchNote PROPERTIES
-            WIN32_EXECUTABLE TRUE
-    )
-elseif (UNIX)
-    set_target_properties(ArchNote PROPERTIES
-            OUTPUT_NAME "Arch Note"
-    )
-endif ()
-
 
 if (APPLE)
     set_target_properties(ArchNote PROPERTIES
@@ -63,6 +57,11 @@ target_link_libraries(ArchNote PRIVATE
         Qt6::QuickControls2
         Qt6::QuickTemplates2
         Qt6::QuickLayouts
+        KF6::Svg
+)
+
+target_link_libraries (ArchNote PRIVATE
+        KF6::Svg
 )
 
 target_include_directories (ArchNote PRIVATE
