@@ -2,18 +2,13 @@
 // Created by Justmoong on 8/13/25.
 //
 
-// SvgIconItem.h (C++)
 #pragma once
-
-#include <KSvg/Svg>
 #include <QQuickPaintedItem>
 #include <QUrl>
 #include <memory>
 
-namespace KSvg
-{
-    class Renderer;
-}
+// KSvg 공개 API만 사용
+#include <KSvg/Svg>
 
 class SvgIconItem : public QQuickPaintedItem
 {
@@ -41,20 +36,22 @@ public:
     qreal devicePixelRatio() const { return m_dpr; }
     void setDevicePixelRatio(qreal dpr);
 
-signals:
-    void sourceChanged();
+    signals:
+        void sourceChanged();
     void elementIdChanged();
     void smoothChanged();
     void devicePixelRatioChanged();
 
 private:
-    void loadRenderer();
+    void ensureSvg();
+    void applySource();
+    void updateImplicitSize();
     QRectF elementBounds() const;
 
 private:
     QUrl m_source;
     QString m_elementId;
     bool m_smooth = true;
-    qreal m_dpr = 0.0; // 0: 자동(QWindow에서 가져옴)
-    std::unique_ptr<KSvg::Renderer> m_renderer;
+    qreal m_dpr = 0.0;                 // 0이면 창의 DPR을 사용
+    std::unique_ptr<KSvg::Svg> m_svg;  // 공개 API
 };

@@ -1,22 +1,34 @@
 cmake_minimum_required(VERSION 3.24)
 project(ArchNote LANGUAGES C CXX)
 
-# 빌드 출력 디렉토리 설정
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 
-# C++ 표준 설정
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+message (STATUS "SYSROOT=${CMAKE_OSX_SYSROOT}")
 
-# Qt 자동화 도구 설정
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
-set(CMAKE_AUTOUIC ON)
+set (_sdk_gl "${CMAKE_OSX_SYSROOT}/System/Library/Frameworks/OpenGL.framework/Headers/gl.h")
+if (EXISTS "${_sdk_gl}")
+    message (STATUS "OpenGL.h in SDK: YES -> ${_sdk_gl}")
+else ()
+    message (STATUS "OpenGL.h in SDK: NO")
+endif ()
 
-# OpenGL 완전 비활성화
-set(CMAKE_DISABLE_FIND_PACKAGE_OpenGL ON)
-set(QT_FEATURE_opengl OFF)
+message (STATUS "GL.h exists? " $<BOOL:$ENV{SDK_GL_H_EXISTS}>)
+
+set (CMAKE_FIND_FRAMEWORK FIRST)
+list (PREPEND CMAKE_SYSTEM_FRAMEWORK_PATH
+        "${CMAKE_OSX_SYSROOT}/System/Library/Frameworks"
+        "${CMAKE_OSX_SYSROOT}/Library/Frameworks")
+
+set (CMAKE_DISABLE_FIND_PACKAGE_OpenGL ON)
+set (OPENGL_LIBRARIES "-framework OpenGL" CACHE STRING "" FORCE)
+set (OPENGL_gl_LIBRARY "-framework OpenGL" CACHE STRING "" FORCE)
+set (OPENGL_opengl_LIBRARY "-framework OpenGL" CACHE STRING "" FORCE)
+set (OPENGL_INCLUDE_DIR "" CACHE PATH "" FORCE)
+
+set (CMAKE_DISABLE_FIND_PACKAGE_WrapOpenGL ON)
+add_library (WrapOpenGL::WrapOpenGL INTERFACE IMPORTED)
+target_link_libraries (WrapOpenGL::WrapOpenGL INTERFACE "-framework OpenGL")
+set (WrapOpenGL_FOUND TRUE)
+
 
 # Qt 설치 경로 설정
 if(UNIX AND NOT APPLE)
@@ -77,6 +89,9 @@ target_link_libraries(ArchNote PRIVATE
         Qt6::Quick
         Qt6::Qml
         Qt6::QuickControls2
+)
+
+target_link_libraries (ArchNote PRIVATE
         KF6::Svg
 )
 
