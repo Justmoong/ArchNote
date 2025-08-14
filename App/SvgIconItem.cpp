@@ -25,7 +25,8 @@ void SvgIconItem::ensureSvg()
     m_svg = std::make_unique<KSvg::Svg>();
 
     // Plasma 테마 변경 등으로 SVG 재렌더가 필요할 때 자동 갱신
-    connect(m_svg.get(), &KSvg::Svg::repaintNeeded, this, [this]{
+    connect(m_svg.get(), &KSvg::Svg::repaintNeeded, this, [this]
+    {
         updateImplicitSize();
         update();
     });
@@ -79,8 +80,8 @@ void SvgIconItem::applySource()
         return;
 
     const QString local = m_source.isEmpty()
-        ? QString()
-        : (m_source.isLocalFile() ? m_source.toLocalFile() : m_source.toString()); // qrc:/ 포함
+                              ? QString()
+                              : (m_source.isLocalFile() ? m_source.toLocalFile() : m_source.toString()); // qrc:/ 포함
 
     // 이미지 경로 지정
     m_svg->setImagePath(local);
@@ -93,7 +94,8 @@ QRectF SvgIconItem::elementBounds() const
     if (!m_svg)
         return {};
 
-    if (!m_elementId.isEmpty()) {
+    if (!m_elementId.isEmpty())
+    {
         if (!m_svg->hasElement(m_elementId))
             return {};
         const QSizeF s = m_svg->elementSize(m_elementId);
@@ -110,10 +112,13 @@ QRectF SvgIconItem::elementBounds() const
 void SvgIconItem::updateImplicitSize()
 {
     const QRectF b = elementBounds();
-    if (b.isValid() && b.width() > 0 && b.height() > 0) {
+    if (b.isValid() && b.width() > 0 && b.height() > 0)
+    {
         setImplicitWidth(b.width());
         setImplicitHeight(b.height());
-    } else {
+    }
+    else
+    {
         setImplicitWidth(24);
         setImplicitHeight(24);
     }
@@ -129,13 +134,14 @@ void SvgIconItem::paint(QPainter* painter)
 
     const QRectF target(0, 0, width(), height());
     const qreal effectiveDpr = (m_dpr > 0.0)
-        ? m_dpr
-        : (window() ? window()->devicePixelRatio() : qApp->devicePixelRatio());
+                                   ? m_dpr
+                                   : (window() ? window()->devicePixelRatio() : qApp->devicePixelRatio());
 
     // 선택 사항: KSvg::Svg가 지원하는 경우에만 사용
     // m_svg->setDevicePixelRatio(effectiveDpr);
 
-    if (!m_elementId.isEmpty() && m_svg->hasElement(m_elementId)) {
+    if (!m_elementId.isEmpty() && m_svg->hasElement(m_elementId))
+    {
         // 인자 순서: (painter, rect, elementId)
         m_svg->paint(painter, target, m_elementId);
     } else {

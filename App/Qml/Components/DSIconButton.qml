@@ -16,10 +16,8 @@ Button {
     // 좌우 패딩
     padding: 6
 
-    implicitWidth: Math.max(background ? background.implicitWidth : 0,
-        contentItem.implicitWidth + leftPadding + rightPadding)
-    implicitHeight: Math.max(background ? background.implicitHeight : 0,
-        Math.max(iconSize, contentItem.implicitHeight) + topPadding + bottomPadding)
+    implicitWidth: iconSize
+    implicitHeight: iconSize
 
     // 아이콘만 있는 버튼으로 가정. 텍스트가 있다면 Row로 확장 가능.
     contentItem: Item {

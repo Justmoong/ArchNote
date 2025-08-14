@@ -29,7 +29,7 @@ Item {
 
         DSIconButton {
             iconSource: "qrc:/icons/library.svg"
-            iconSize: 22
+            iconSize: 24
             onClicked: {
                 currentKey = "library"
                 librarySelected()
@@ -38,7 +38,7 @@ Item {
 
         DSIconButton {
             iconSource: "qrc:/icons/project.svg"
-            iconSize: 22
+            iconSize: 24
             onClicked: {
                 currentKey = "project"
                 librarySelected()
@@ -47,7 +47,7 @@ Item {
 
         DSIconButton {
             iconSource: "qrc:/icons/bookmark.svg"
-            iconSize: 22
+            iconSize: 24
             onClicked: {
                 currentKey = "bookmark"
                 librarySelected()
@@ -56,7 +56,7 @@ Item {
 
         DSIconButton {
             iconSource: "qrc:/icons/rss.svg"
-            iconSize: 22
+            iconSize: 24
             onClicked: {
                 currentKey = "rss"
                 librarySelected()
@@ -65,7 +65,7 @@ Item {
 
         DSIconButton {
             iconSource: "qrc:/icons/checklist.svg"
-            iconSize: 22
+            iconSize: 24
             onClicked: {
                 currentKey = "checklist"
                 librarySelected()
@@ -74,7 +74,7 @@ Item {
 
         DSIconButton {
             iconSource: "qrc:/icons/archive.svg"
-            iconSize: 22
+            iconSize: 24
             onClicked: {
                 currentKey = "archive"
                 librarySelected()
@@ -87,6 +87,6 @@ Item {
 
 // DSIconButton {
 //     iconSource: "qrc:/icons/zoom_in.svg"
-//     iconSize: 22
+//     iconSize: 24
 //     onClicked: console.log("clicked")
 // }
