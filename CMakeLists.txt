@@ -3,6 +3,7 @@ project(ArchNote LANGUAGES C CXX)
 
 
 message (STATUS "SYSROOT=${CMAKE_OSX_SYSROOT}")
+# macOS에서 WrapOpenGL 탐색 우회
 
 set (_sdk_gl "${CMAKE_OSX_SYSROOT}/System/Library/Frameworks/OpenGL.framework/Headers/gl.h")
 if (EXISTS "${_sdk_gl}")

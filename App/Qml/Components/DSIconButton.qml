@@ -7,24 +7,19 @@ import ArchNote 1.0  // KSvgIcon
 Button {
     id: control
 
-    // 외부에서 전달할 아이콘 URL (qrc:/, :/, file:/ 모두 가능)
     property url iconSource: ""
-    // 옵션: SVG 내부 특정 요소 ID를 지정해서 부분 렌더링
     property string svgElementId: ""
-    // 아이콘 크기
     property int iconSize: 20
-    // 좌우 패딩
     padding: 6
 
     implicitWidth: iconSize
     implicitHeight: iconSize
 
-    // 아이콘만 있는 버튼으로 가정. 텍스트가 있다면 Row로 확장 가능.
     contentItem: Item {
+        id: contentRoot
         implicitWidth: iconSize
         implicitHeight: iconSize
 
-        // 간단한 확장: SVG 여부 판단
         readonly property bool isSvg: {
             const s = String(control.iconSource).toLowerCase()
             return s.endsWith(".svg") || s.endsWith(".svgz")
@@ -35,7 +30,8 @@ Button {
             anchors.centerIn: parent
             width: control.iconSize
             height: control.iconSize
-            sourceComponent: isSvg ? svgComp : rasterComp
+            // 스코프를 명시적으로 지정
+            sourceComponent: contentRoot.isSvg ? svgComp : rasterComp
         }
 
         Component {
@@ -64,10 +60,3 @@ Button {
         }
     }
 }
-
-//사용 방법
-// DSIconButton {
-//     iconSource: "qrc:/icons/zoom_in.svg"
-//     iconSize: 22
-//     onClicked: console.log("clicked")
-// }
