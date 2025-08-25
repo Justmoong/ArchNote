@@ -3,6 +3,7 @@ project(ArchNote LANGUAGES C CXX)
 
 
 message (STATUS "SYSROOT=${CMAKE_OSX_SYSROOT}")
+
 # macOS에서 WrapOpenGL 탐색 우회
 
 set (_sdk_gl "${CMAKE_OSX_SYSROOT}/System/Library/Frameworks/OpenGL.framework/Headers/gl.h")
@@ -31,7 +32,7 @@ target_link_libraries (WrapOpenGL::WrapOpenGL INTERFACE "-framework OpenGL")
 set (WrapOpenGL_FOUND TRUE)
 
 
-# Qt 설치 경로 설정
+# 리눅스 런치 전용 Qt 설치 경로 설정
 if(UNIX AND NOT APPLE)
     # 시스템 Qt 경로 제거
     list(REMOVE_ITEM CMAKE_PREFIX_PATH "/usr/lib/x86_64-linux-gnu/cmake")
@@ -74,10 +75,11 @@ find_package(KF6 REQUIRED COMPONENTS
         I18n
         Config
         Svg
+        Kirigami
 )
 
 # Qt 프로젝트 설정
-qt_standard_project_setup(REQUIRES 6.5)
+qt_standard_project_setup (REQUIRES 6.8)
 
 # 서브디렉토리 추가
 add_subdirectory(App)
@@ -94,6 +96,7 @@ target_link_libraries(ArchNote PRIVATE
 
 target_link_libraries (ArchNote PRIVATE
         KF6::Svg
+        KF6::Kirigami
 )
 
 # 리소스 추가

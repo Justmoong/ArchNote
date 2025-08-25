@@ -41,7 +41,7 @@ Item {
             iconSize: 24
             onClicked: {
                 currentKey = "project"
-                librarySelected()
+                projectsSelected()
             }
         }
 
@@ -50,7 +50,7 @@ Item {
             iconSize: 24
             onClicked: {
                 currentKey = "bookmark"
-                librarySelected()
+                bookmarksSelected()
             }
         }
 
@@ -59,7 +59,7 @@ Item {
             iconSize: 24
             onClicked: {
                 currentKey = "rss"
-                librarySelected()
+                rssSelected()
             }
         }
 
@@ -68,7 +68,7 @@ Item {
             iconSize: 24
             onClicked: {
                 currentKey = "checklist"
-                librarySelected()
+                checklistSelected()
             }
         }
 
@@ -77,7 +77,7 @@ Item {
             iconSize: 24
             onClicked: {
                 currentKey = "archive"
-                librarySelected()
+                archiveSelected()
             }
         }
 
