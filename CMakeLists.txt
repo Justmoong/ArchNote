@@ -65,6 +65,7 @@ find_package(Qt6 REQUIRED COMPONENTS
         Quick
         Qml
         QuickControls2
+        Svg
 )
 
 find_package(ECM REQUIRED NO_MODULE)
@@ -75,7 +76,6 @@ find_package(KF6 REQUIRED COMPONENTS
         I18n
         Config
         Svg
-        Kirigami
 )
 
 # Qt 프로젝트 설정
@@ -92,15 +92,16 @@ target_link_libraries(ArchNote PRIVATE
         Qt6::Quick
         Qt6::Qml
         Qt6::QuickControls2
+        Qt6::Svg
+
 )
 
 target_link_libraries (ArchNote PRIVATE
         KF6::Svg
-        KF6::Kirigami
 )
 
 # 리소스 추가
-file(GLOB ICON_FILES "${CMAKE_CURRENT_SOURCE_DIR}/Resources/Icons/*.png")
+file (GLOB ICON_FILES "${CMAKE_CURRENT_SOURCE_DIR}/Resources/Icons/*.svg")
 if(ICON_FILES)
     qt_add_resources(ArchNote "resources"
             PREFIX "/Icons"

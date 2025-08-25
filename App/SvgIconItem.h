@@ -6,9 +6,7 @@
 #include <QQuickPaintedItem>
 #include <QUrl>
 #include <memory>
-
-// KSvg 공개 API만 사용
-#include <KSvg/Svg>
+#include <QSvgRenderer>
 
 class SvgIconItem : public QQuickPaintedItem
 {
@@ -36,8 +34,8 @@ public:
     qreal devicePixelRatio() const { return m_dpr; }
     void setDevicePixelRatio(qreal dpr);
 
-signals:
-    void sourceChanged();
+    signals:
+        void sourceChanged();
     void elementIdChanged();
     void smoothChanged();
     void devicePixelRatioChanged();
@@ -52,6 +50,6 @@ private:
     QUrl m_source;
     QString m_elementId;
     bool m_smooth = true;
-    qreal m_dpr = 0.0; // 0이면 창의 DPR을 사용
-    std::unique_ptr<KSvg::Svg> m_svg; // 공개 API
+    qreal m_dpr = 0.0; // QQuickPaintedItem가 DPR을 처리하므로 보통 필요 없음
+    std::unique_ptr<QSvgRenderer> m_svg;
 };

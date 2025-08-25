@@ -28,7 +28,7 @@ Item {
         anchors.verticalCenter: parent.verticalCenter
 
         DSIconButton {
-            iconSource: "qrc:/icons/library.svg"
+            iconSource: "qrc:Resources/Icons/library.svg"
             iconSize: 24
             onClicked: {
                 currentKey = "library"
@@ -37,7 +37,7 @@ Item {
         }
 
         DSIconButton {
-            iconSource: "qrc:/icons/project.svg"
+            iconSource: "qrc:Resources/Icons/project.svg"
             iconSize: 24
             onClicked: {
                 currentKey = "project"
@@ -46,7 +46,7 @@ Item {
         }
 
         DSIconButton {
-            iconSource: "qrc:/icons/bookmark.svg"
+            iconSource: "qrc:Resources/Icons/bookmark.svg"
             iconSize: 24
             onClicked: {
                 currentKey = "bookmark"
@@ -55,7 +55,7 @@ Item {
         }
 
         DSIconButton {
-            iconSource: "qrc:/icons/rss.svg"
+            iconSource: "qrc:Resources/Icons/rss.svg"
             iconSize: 24
             onClicked: {
                 currentKey = "rss"
@@ -64,7 +64,7 @@ Item {
         }
 
         DSIconButton {
-            iconSource: "qrc:/icons/checklist.svg"
+            iconSource: "qrc:Resources/Icons/checklist.svg"
             iconSize: 24
             onClicked: {
                 currentKey = "checklist"
@@ -73,7 +73,7 @@ Item {
         }
 
         DSIconButton {
-            iconSource: "qrc:/icons/archive.svg"
+            iconSource: "qrc:Resources/Icons/archive.svg"
             iconSize: 24
             onClicked: {
                 currentKey = "archive"
@@ -86,7 +86,7 @@ Item {
 }
 
 // DSIconButton {
-//     iconSource: "qrc:/icons/zoom_in.svg"
+//     iconSource: "qrc:Resources/Icons/zoom_in.svg"
 //     iconSize: 24
 //     onClicked: console.log("clicked")
 // }

@@ -1,150 +1,188 @@
-//
-// Created by Justmoong on 8/13/25.
-//
-
 #include "SvgIconItem.h"
+
 #include <QPainter>
-#include <QFileInfo>
-#include <QGuiApplication>
+#include <QFile>
 #include <QQuickWindow>
+#include <QLoggingCategory>
+#include <QDebug>
+
+static QString toLocalOrQrcPath(const QUrl& url)
+{
+    // qrc:/icons/foo.svg -> :/icons/foo.svg
+    if (url.scheme() == QLatin1String("qrc")) {
+        return QLatin1Char(':') + url.path(); // path()는 /icons/foo.svg 형태
+    }
+    if (url.isLocalFile()) {
+        return url.toLocalFile();
+    }
+    // 이미 :/ 로 시작하는 리소스나, 단순 상대 경로 대응
+    const QString s = url.toString();
+    if (s.startsWith(QLatin1String(":/")))
+        return s;
+    return s;
+}
 
 SvgIconItem::SvgIconItem(QQuickItem* parent)
     : QQuickPaintedItem(parent)
 {
-    setAntialiasing(true);
+    setFlag(ItemHasContents, true);
+    setAcceptedMouseButtons(Qt::NoButton);
+    setAntialiasing(m_smooth);
+    // RHI(예: Metal)에서도 안전하게 동작
     setRenderTarget(QQuickPaintedItem::FramebufferObject);
-    ensureSvg();
 }
 
 SvgIconItem::~SvgIconItem() = default;
 
 void SvgIconItem::ensureSvg()
 {
-    if (m_svg)
-        return;
-    m_svg = std::make_unique<KSvg::Svg>();
-
-    // Plasma 테마 변경 등으로 SVG 재렌더가 필요할 때 자동 갱신
-    connect(m_svg.get(), &KSvg::Svg::repaintNeeded, this, [this]
-    {
-        updateImplicitSize();
-        update();
-    });
-}
-
-void SvgIconItem::setSource(const QUrl& url)
-{
-    if (m_source == url)
-        return;
-    m_source = url;
-    applySource();
-    emit sourceChanged();
-    update();
-}
-
-void SvgIconItem::setElementId(const QString& id)
-{
-    if (m_elementId == id)
-        return;
-    m_elementId = id;
-    // 다중 요소 사용 여부 힌트
-    if (m_svg)
-        m_svg->setContainsMultipleImages(!m_elementId.isEmpty());
-    emit elementIdChanged();
-    updateImplicitSize();
-    update();
-}
-
-void SvgIconItem::setSmooth(bool s)
-{
-    if (m_smooth == s)
-        return;
-    m_smooth = s;
-    emit smoothChanged();
-    update();
-}
-
-void SvgIconItem::setDevicePixelRatio(qreal dpr)
-{
-    if (qFuzzyCompare(m_dpr, dpr))
-        return;
-    m_dpr = dpr;
-    emit devicePixelRatioChanged();
-    update();
+    if (!m_svg) {
+        m_svg = std::make_unique<QSvgRenderer>();
+    }
 }
 
 void SvgIconItem::applySource()
 {
     ensureSvg();
-    if (!m_svg)
+
+    if (m_source.isEmpty()) {
+        m_svg->load(QByteArray{});
+        update();
         return;
+    }
 
-    const QString local = m_source.isEmpty()
-                              ? QString()
-                              : (m_source.isLocalFile() ? m_source.toLocalFile() : m_source.toString()); // qrc:/ 포함
+    const QString path = toLocalOrQrcPath(m_source);
+    QFile f(path);
+    if (!f.open(QIODevice::ReadOnly)) {
+        qWarning() << "[SvgIconItem] Failed to open" << path;
+        m_svg->load(QByteArray{});
+        updateImplicitSize();
+        update();
+        return;
+    }
 
-    // 이미지 경로 지정
-    m_svg->setImagePath(local);
-    m_svg->setContainsMultipleImages(!m_elementId.isEmpty());
+    const QByteArray data = f.readAll();
+    if (!m_svg->load(data) || !m_svg->isValid()) {
+        qWarning() << "[SvgIconItem] Invalid SVG:" << path;
+    }
     updateImplicitSize();
+    update();
+}
+
+void SvgIconItem::setSource(const QUrl& url)
+{
+    if (url == m_source)
+        return;
+    m_source = url;
+    applySource();
+    emit sourceChanged();
+}
+
+void SvgIconItem::setElementId(const QString& id)
+{
+    if (id == m_elementId)
+        return;
+    m_elementId = id;
+    updateImplicitSize();
+    update();
+    emit elementIdChanged();
+}
+
+void SvgIconItem::setSmooth(bool s)
+{
+    if (s == m_smooth)
+        return;
+    m_smooth = s;
+    setAntialiasing(m_smooth);
+    update();
+    emit smoothChanged();
+}
+
+void SvgIconItem::setDevicePixelRatio(qreal dpr)
+{
+    if (qFuzzyCompare(dpr, m_dpr))
+        return;
+    m_dpr = dpr;
+    // 일반적으로 QQuickPaintedItem가 DPR을 처리하므로 추가 스케일은 불필요
+    update();
+    emit devicePixelRatioChanged();
+}
+
+static QRectF viewRectForRenderer(QSvgRenderer* r)
+{
+    if (!r || !r->isValid())
+        return {};
+
+    QRectF vb = r->viewBoxF();
+    if (!vb.isEmpty())
+        return vb;
+
+    // 일부 SVG는 viewBox 없이 width/height만 있을 수 있음
+    const QSize sz = r->defaultSize();
+    if (!sz.isEmpty())
+        return QRectF(QPointF(0, 0), sz);
+
+    return {};
 }
 
 QRectF SvgIconItem::elementBounds() const
 {
-    if (!m_svg)
+    if (!m_svg || !m_svg->isValid())
         return {};
 
-    if (!m_elementId.isEmpty())
-    {
-        if (!m_svg->hasElement(m_elementId))
-            return {};
-        const QSizeF s = m_svg->elementSize(m_elementId);
-        return QRectF(QPointF(0.0, 0.0), s);
+    if (!m_elementId.isEmpty() && m_svg->elementExists(m_elementId)) {
+        const QRectF b = m_svg->boundsOnElement(m_elementId);
+        if (!b.isEmpty())
+            return b;
+        // 요소 bounds가 비면 전체로 폴백
     }
-
-    // 요소 ID가 없으면 전체 문서 크기
-    const QSizeF s = m_svg->size();
-    if (s.isEmpty())
-        return {};
-    return QRectF(QPointF(0.0, 0.0), s);
+    return viewRectForRenderer(m_svg.get());
 }
 
 void SvgIconItem::updateImplicitSize()
 {
-    const QRectF b = elementBounds();
-    if (b.isValid() && b.width() > 0 && b.height() > 0)
-    {
-        setImplicitWidth(b.width());
-        setImplicitHeight(b.height());
+    QRectF b = elementBounds();
+    QSizeF s = b.size();
+    if (s.isEmpty()) {
+        // 폴백: 24x24 아이콘
+        s = QSizeF(24, 24);
     }
-    else
-    {
-        setImplicitWidth(24);
-        setImplicitHeight(24);
-    }
+    setImplicitSize(s.width(), s.height());
 }
 
-void SvgIconItem::paint(QPainter* painter)
+void SvgIconItem::paint(QPainter* p)
 {
-    if (!m_svg)
+    if (!m_svg || !m_svg->isValid())
         return;
 
-    painter->setRenderHint(QPainter::Antialiasing, m_smooth);
-    painter->setRenderHint(QPainter::SmoothPixmapTransform, m_smooth);
+    const qreal w = width();
+    const qreal h = height();
+    if (w <= 0 || h <= 0)
+        return;
 
-    const QRectF target(0, 0, width(), height());
-    const qreal effectiveDpr = (m_dpr > 0.0)
-                                   ? m_dpr
-                                   : (window() ? window()->devicePixelRatio() : qApp->devicePixelRatio());
+    const QRectF src = elementBounds();
+    if (src.isEmpty())
+        return;
 
-    // 선택 사항: KSvg::Svg가 지원하는 경우에만 사용
-    // m_svg->setDevicePixelRatio(effectiveDpr);
+    p->save();
+    p->setRenderHint(QPainter::Antialiasing, m_smooth);
 
-    if (!m_elementId.isEmpty() && m_svg->hasElement(m_elementId))
-    {
-        // 인자 순서: (painter, rect, elementId)
-        m_svg->paint(painter, target, m_elementId);
+    // 비율 유지 스케일 + 중앙 정렬
+    const qreal sx = w / src.width();
+    const qreal sy = h / src.height();
+    const qreal s = std::min(sx, sy);
+
+    const qreal tx = (w - s * src.width()) * 0.5 - s * src.left();
+    const qreal ty = (h - s * src.height()) * 0.5 - s * src.top();
+
+    p->translate(tx, ty);
+    p->scale(s, s);
+
+    if (!m_elementId.isEmpty() && m_svg->elementExists(m_elementId)) {
+        m_svg->render(p, m_elementId);
     } else {
-        m_svg->paint(painter, target);
+        m_svg->render(p);
     }
+
+    p->restore();
 }
