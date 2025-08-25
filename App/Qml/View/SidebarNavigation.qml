@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls 2.15
 import QtQuick.Layouts
 import Components
+import ArchNote 1.0
 
 Item {
     Layout.preferredHeight: 30
@@ -28,8 +29,8 @@ Item {
         anchors.verticalCenter: parent.verticalCenter
 
         DSIconButton {
-            iconSource: "qrc:Resources/Icons/library.svg"
-            iconSize: 24
+            iconSource: "qrc:/icons/library.svg"
+            iconSize: 20
             onClicked: {
                 currentKey = "library"
                 librarySelected()
@@ -37,8 +38,8 @@ Item {
         }
 
         DSIconButton {
-            iconSource: "qrc:Resources/Icons/project.svg"
-            iconSize: 24
+            iconSource: "qrc:/icons/project.svg"
+            iconSize: 20
             onClicked: {
                 currentKey = "project"
                 projectsSelected()
@@ -46,8 +47,8 @@ Item {
         }
 
         DSIconButton {
-            iconSource: "qrc:Resources/Icons/bookmark.svg"
-            iconSize: 24
+            iconSource: "qrc:/icons/bookmark.svg"
+            iconSize: 20
             onClicked: {
                 currentKey = "bookmark"
                 bookmarksSelected()
@@ -55,8 +56,8 @@ Item {
         }
 
         DSIconButton {
-            iconSource: "qrc:Resources/Icons/rss.svg"
-            iconSize: 24
+            iconSource: "qrc:/icons/rss.svg"
+            iconSize: 20
             onClicked: {
                 currentKey = "rss"
                 rssSelected()
@@ -64,8 +65,8 @@ Item {
         }
 
         DSIconButton {
-            iconSource: "qrc:Resources/Icons/checklist.svg"
-            iconSize: 24
+            iconSource: "qrc:/icons/checklist.svg"
+            iconSize: 20
             onClicked: {
                 currentKey = "checklist"
                 checklistSelected()
@@ -73,8 +74,8 @@ Item {
         }
 
         DSIconButton {
-            iconSource: "qrc:Resources/Icons/archive.svg"
-            iconSize: 24
+            iconSource: "qrc:/icons/archive.svg"
+            iconSize: 20
             onClicked: {
                 currentKey = "archive"
                 archiveSelected()
@@ -86,7 +87,7 @@ Item {
 }
 
 // DSIconButton {
-//     iconSource: "qrc:Resources/Icons/zoom_in.svg"
-//     iconSize: 24
+//     iconSource: "qrc:/icons/zoom_in.svg"
+//     iconSize: 20
 //     onClicked: console.log("clicked")
 // }

@@ -101,11 +101,11 @@ target_link_libraries (ArchNote PRIVATE
 )
 
 # 리소스 추가
-file (GLOB ICON_FILES "${CMAKE_CURRENT_SOURCE_DIR}/Resources/Icons/*.svg")
+file (GLOB ICON_FILES "App/icons/*.svg")
 if(ICON_FILES)
     qt_add_resources(ArchNote "resources"
             PREFIX "/Icons"
-            BASE "Resources/Icons"
+            BASE "App/icons"
             FILES ${ICON_FILES}
     )
 endif()

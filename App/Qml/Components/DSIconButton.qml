@@ -9,8 +9,13 @@ Button {
 
     property url iconSource: ""
     property string svgElementId: ""
-    property int iconSize: 20
-    padding: 6
+    property int iconSize: 24
+    background: Rectangle {
+        color: "transparent"     // 배경 투명
+        border.width: 0          // 보더 제거
+        radius: 0
+    }
+    padding: 8
 
     implicitWidth: iconSize
     implicitHeight: iconSize

@@ -3,6 +3,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import View
 import Components
+import ArchNote 1.0
 
 ApplicationWindow {
     id: window

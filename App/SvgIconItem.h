@@ -1,12 +1,11 @@
-//
-// Created by Justmoong on 8/13/25.
-//
-
 #pragma once
 #include <QQuickPaintedItem>
 #include <QUrl>
+#include <QString>
+#include <QRectF>
 #include <memory>
-#include <QSvgRenderer>
+
+class QSvgRenderer;
 
 class SvgIconItem : public QQuickPaintedItem
 {
@@ -17,6 +16,15 @@ class SvgIconItem : public QQuickPaintedItem
     Q_PROPERTY(qreal devicePixelRatio READ devicePixelRatio WRITE setDevicePixelRatio NOTIFY devicePixelRatioChanged)
 
 public:
+    enum FitMode {
+        PreserveAspectFit = 0,  // 프레임에 맞춰 비율 유지, 전체 보이기
+        PreserveAspectCrop,     // 프레임을 꽉 채우되 비율 유지(잘릴 수 있음)
+        Stretch,                // 프레임에 정확히 맞춤(비율 무시)
+        None                    // 스케일링 안 함(원본 크기)
+    };
+    Q_ENUM(FitMode)
+    Q_PROPERTY(FitMode fitMode READ fitMode WRITE setFitMode NOTIFY fitModeChanged)
+
     explicit SvgIconItem(QQuickItem* parent = nullptr);
     ~SvgIconItem() override;
 
@@ -34,11 +42,24 @@ public:
     qreal devicePixelRatio() const { return m_dpr; }
     void setDevicePixelRatio(qreal dpr);
 
+    FitMode fitMode() const { return m_fitMode; }
+    void setFitMode(FitMode m);
+
 signals:
     void sourceChanged();
     void elementIdChanged();
     void smoothChanged();
     void devicePixelRatioChanged();
+    void fitModeChanged();
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+protected:
+    void geometryChange(const QRectF& newGeometry, const QRectF& oldGeometry) override;
+#else
+protected:
+    void geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry) override;
+#endif
+
 
 private:
     void ensureSvg();
@@ -50,6 +71,7 @@ private:
     QUrl m_source;
     QString m_elementId;
     bool m_smooth = true;
-    qreal m_dpr = 0.0; // QQuickPaintedItem가 DPR을 처리하므로 보통 필요 없음
+    qreal m_dpr = 0.0;
+    FitMode m_fitMode = PreserveAspectFit;
     std::unique_ptr<QSvgRenderer> m_svg;
 };

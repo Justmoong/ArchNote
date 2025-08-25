@@ -1,0 +1,11 @@
+<!-- App/resources.qrc -->
+<RCC>
+    <qresource prefix="/icons">
+        <file>icons/archive.svg</file>
+        <file>icons/checklist.svg</file>
+        <file>icons/rss.svg</file>
+        <file>icons/bookmark.svg</file>
+        <file>icons/project.svg</file>
+        <file>icons/library.svg</file>
+    </qresource>
+</RCC>
