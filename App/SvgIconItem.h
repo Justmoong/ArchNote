@@ -34,8 +34,8 @@ public:
     qreal devicePixelRatio() const { return m_dpr; }
     void setDevicePixelRatio(qreal dpr);
 
-    signals:
-        void sourceChanged();
+signals:
+    void sourceChanged();
     void elementIdChanged();
     void smoothChanged();
     void devicePixelRatioChanged();

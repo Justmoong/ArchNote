@@ -15,7 +15,6 @@ using namespace Qt::StringLiterals;
 
 int main(int argc, char *argv[])
 {
-
     // 진단용: 렌더 루프를 basic으로 고정(단일 스레드)
     qputenv("QSG_RENDER_LOOP", QByteArray("basic"));
     // 추가 진단: Scene Graph 로그

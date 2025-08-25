@@ -9,10 +9,12 @@
 static QString toLocalOrQrcPath(const QUrl& url)
 {
     // qrc:/icons/foo.svg -> :/icons/foo.svg
-    if (url.scheme() == QLatin1String("qrc")) {
+    if (url.scheme() == QLatin1String("qrc"))
+    {
         return QLatin1Char(':') + url.path(); // path()는 /icons/foo.svg 형태
     }
-    if (url.isLocalFile()) {
+    if (url.isLocalFile())
+    {
         return url.toLocalFile();
     }
     // 이미 :/ 로 시작하는 리소스나, 단순 상대 경로 대응
@@ -36,7 +38,8 @@ SvgIconItem::~SvgIconItem() = default;
 
 void SvgIconItem::ensureSvg()
 {
-    if (!m_svg) {
+    if (!m_svg)
+    {
         m_svg = std::make_unique<QSvgRenderer>();
     }
 }
@@ -45,7 +48,8 @@ void SvgIconItem::applySource()
 {
     ensureSvg();
 
-    if (m_source.isEmpty()) {
+    if (m_source.isEmpty())
+    {
         m_svg->load(QByteArray{});
         update();
         return;
@@ -53,7 +57,8 @@ void SvgIconItem::applySource()
 
     const QString path = toLocalOrQrcPath(m_source);
     QFile f(path);
-    if (!f.open(QIODevice::ReadOnly)) {
+    if (!f.open(QIODevice::ReadOnly))
+    {
         qWarning() << "[SvgIconItem] Failed to open" << path;
         m_svg->load(QByteArray{});
         updateImplicitSize();
@@ -62,7 +67,8 @@ void SvgIconItem::applySource()
     }
 
     const QByteArray data = f.readAll();
-    if (!m_svg->load(data) || !m_svg->isValid()) {
+    if (!m_svg->load(data) || !m_svg->isValid())
+    {
         qWarning() << "[SvgIconItem] Invalid SVG:" << path;
     }
     updateImplicitSize();
@@ -130,7 +136,8 @@ QRectF SvgIconItem::elementBounds() const
     if (!m_svg || !m_svg->isValid())
         return {};
 
-    if (!m_elementId.isEmpty() && m_svg->elementExists(m_elementId)) {
+    if (!m_elementId.isEmpty() && m_svg->elementExists(m_elementId))
+    {
         const QRectF b = m_svg->boundsOnElement(m_elementId);
         if (!b.isEmpty())
             return b;
@@ -143,7 +150,8 @@ void SvgIconItem::updateImplicitSize()
 {
     QRectF b = elementBounds();
     QSizeF s = b.size();
-    if (s.isEmpty()) {
+    if (s.isEmpty())
+    {
         // 폴백: 24x24 아이콘
         s = QSizeF(24, 24);
     }
@@ -178,9 +186,12 @@ void SvgIconItem::paint(QPainter* p)
     p->translate(tx, ty);
     p->scale(s, s);
 
-    if (!m_elementId.isEmpty() && m_svg->elementExists(m_elementId)) {
+    if (!m_elementId.isEmpty() && m_svg->elementExists(m_elementId))
+    {
         m_svg->render(p, m_elementId);
-    } else {
+    }
+    else
+    {
         m_svg->render(p);
     }
 
