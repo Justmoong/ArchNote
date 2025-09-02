@@ -5,9 +5,11 @@ import QtQuick.Layouts
 Rectangle {
     color: "transparent"
 
+
     property var libraryModel: ["lib 1", "lib 2", "lib 3"]
     property var projectsModel: ["proj 1", "proj 2", "proj 3"]
     property var bookmarksModel: ["bookmark 1", "bookmark 2", "bookmark 3"]
+    property var rssModel: ["rss1", "rss2"]
 
     property var currentModel: libraryModel
 
@@ -28,9 +30,11 @@ Rectangle {
             Layout.fillWidth: true
             Layout.fillHeight: true
 
+
             ListView {
                 anchors.fill: parent
                 model: currentModel
+                Layout.preferredWidth: 480
 
                 delegate: Text {
                     text: modelData

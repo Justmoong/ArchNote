@@ -19,7 +19,7 @@ ApplicationWindow {
     header: Rectangle {
         id: titleBar
         height: 40
-        color: "#373737"
+        color: "transparent"
 
 
         MouseArea {
