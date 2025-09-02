@@ -7,6 +7,7 @@ import ArchNote 1.0
 
 ApplicationWindow {
     id: window
+    title: "Arch Note"
     width: 1440
     height: 900
     visible: true
