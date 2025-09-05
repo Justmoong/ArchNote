@@ -76,7 +76,7 @@ find_package(KF6 REQUIRED COMPONENTS
         I18n
         Config
         Svg
-        Kirigami2
+        Kirigami
 )
 
 # Qt 프로젝트 설정
@@ -92,6 +92,7 @@ target_link_libraries(ArchNote PRIVATE
         Qt6::Gui
         Qt6::Quick
         Qt6::Qml
+        Qt6::Svg
 )
 
 set (CMAKE_FIND_FRAMEWORK FIRST)
@@ -112,7 +113,7 @@ list (PREPEND CMAKE_SYSTEM_FRAMEWORK_PATH
 
 target_link_libraries (ArchNote PRIVATE
         KF6::Svg
-        KF6::Kirigami2
+        KF6::Kirigami
 )
 
 # 리소스 추가
