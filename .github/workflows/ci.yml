@@ -1,0 +1,78 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  linux:
+    name: Linux Build & Test
+    runs-on: ubuntu-24.04
+    env:
+      QT_QPA_PLATFORM: offscreen
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            cmake ninja-build g++ \
+            qt6-base-dev qt6-declarative-dev qt6-svg-dev qt6-quickcontrols2-dev \
+            libkf6coreaddons-dev libkf6i18n-dev libkf6config-dev libkf6svg-dev \
+            libkf6kirigami-dev qml6-module-org-kde-kirigami
+
+      - name: Configure
+        run: cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build
+        run: cmake --build build -j
+
+      - name: Run tests
+        run: |
+          if [ -x "build/Test/.output/ArchNoteTests" ]; then \
+            ./build/Test/.output/ArchNoteTests -vs; \
+          else \
+            echo "Test binary not found" && exit 1; \
+          fi
+
+  macos:
+    name: macOS Build & Test
+    runs-on: macos-14
+    env:
+      QT_QPA_PLATFORM: offscreen
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Qt and KF6
+        run: |
+          brew update
+          brew tap kde-mac/kde
+          brew install qt kf6-kcoreaddons kf6-ki18n kf6-kconfig kf6-ksvg kf6-kirigami
+
+      - name: Configure
+        shell: bash
+        run: |
+          QT_PREFIX=$(brew --prefix qt)
+          KCORE=$(brew --prefix kf6-kcoreaddons)
+          KI18N=$(brew --prefix kf6-ki18n)
+          KCONFIG=$(brew --prefix kf6-kconfig)
+          KSVG=$(brew --prefix kf6-ksvg)
+          KIRIGAMI=$(brew --prefix kf6-kirigami)
+          CMAKE_PREFIX_PATH="$QT_PREFIX;$KCORE;$KI18N;$KCONFIG;$KSVG;$KIRIGAMI"
+          cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="$CMAKE_PREFIX_PATH"
+
+      - name: Build
+        run: cmake --build build -j
+
+      - name: Run tests
+        run: |
+          if [ -x "build/Test/.output/ArchNoteTests" ]; then \
+            ./build/Test/.output/ArchNoteTests -vs; \
+          else \
+            echo "Test binary not found" && exit 1; \
+          fi

@@ -8,4 +8,6 @@ qt_add_qml_module(ArchNoteAppQmlView
     DEPENDENCIES
         QtQuick
         QtQuick.Controls
+        QtQuick.Dialogs
+        org.kde.kirigami
 )

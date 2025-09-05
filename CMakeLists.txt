@@ -76,6 +76,7 @@ find_package(KF6 REQUIRED COMPONENTS
         I18n
         Config
         Svg
+        Kirigami2
 )
 
 # Qt 프로젝트 설정
@@ -111,6 +112,7 @@ list (PREPEND CMAKE_SYSTEM_FRAMEWORK_PATH
 
 target_link_libraries (ArchNote PRIVATE
         KF6::Svg
+        KF6::Kirigami2
 )
 
 # 리소스 추가
