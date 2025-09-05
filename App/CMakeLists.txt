@@ -1,3 +1,7 @@
+# (필요 시) Qt Svg 모듈 찾기
+find_package (Qt6 COMPONENTS Svg REQUIRED)
+
+# 실행 파일
 qt_add_executable(ArchNote
         main.cpp
 )
@@ -11,6 +15,7 @@ endif ()
 
 add_subdirectory(Qml)
 
+# KF6 Svg는 계속 사용하되, QSvgRenderer 해결을 위해 Qt6::Svg도 함께 링크
 find_package (KF6 6.0 REQUIRED COMPONENTS Svg)
 
 target_link_libraries(ArchNote PRIVATE
@@ -19,34 +24,31 @@ target_link_libraries(ArchNote PRIVATE
         Qt6::Quick
         Qt6::Qml
         Qt6::QuickControls2
+        Qt6::Svg          # 추가: QSvgRenderer 심볼 제공
         ArchNoteAppQml
         ArchNoteAppQmlView
         ArchNoteAppQmlComponents
 )
 
-# 0) 현재 CMake가 바라보는 기준 경로를 명시적으로 고정
-set (APP_DIR "${CMAKE_CURRENT_LIST_DIR}")                   # 이 파일이 있는 폴더
+# ------- 아이콘 존재 검사(치명도 완화) 및 리소스 연결 -------
+
+# 기준 경로 고정
+set (APP_DIR "${CMAKE_CURRENT_LIST_DIR}")
 set (ICON_DIR "${APP_DIR}/icons")
 
-# 1) 디버그 로그로 경로와 목록을 즉시 출력
-message (STATUS "[ArchNote] APP_DIR=${APP_DIR}")
-message (STATUS "[ArchNote] ICON_DIR=${ICON_DIR}")
+# 존재 검사: 실패 시 빌드 중단 대신 경고만 출력
 if (EXISTS "${ICON_DIR}/checklist.svg")
     message (STATUS "[ArchNote] checklist.svg FOUND at ${ICON_DIR}/checklist.svg")
 else ()
-    message (STATUS "[ArchNote] checklist.svg NOT FOUND at ${ICON_DIR}/checklist.svg")
-    if (EXISTS "${APP_DIR}")
+    message (WARNING "[ArchNote] checklist.svg NOT FOUND at ${ICON_DIR}/checklist.svg")
+    if (EXISTS "${ICON_DIR}")
         file (GLOB _ls_icons "${ICON_DIR}/*")
         message (STATUS "[ArchNote] ICON_DIR listing: ${_ls_icons}")
     endif ()
-    message (FATAL_ERROR "Missing required icon at: ${ICON_DIR}/checklist.svg")
 endif ()
 
-# 2) 파일 수집은 CONFIGURE_DEPENDS로 추적
-file (GLOB ICON_FILES CONFIGURE_DEPENDS "${ICON_DIR}/*.svg")
-
-# 3) 리소스 등록: BASE를 ICON_DIR로 고정하면 런타임 경로는 :/icons/이 됨
-qt_add_resources (ArchNote app_icons
-        PREFIX "/icons"
-        BASE "${ICON_DIR}"
-        FILES ${ICON_FILES})
+# QRC를 실제로 타깃에 포함 (App/resources.qrc가 icons/*를 참조)
+qt_add_resources (ArchNote "app_icons"
+        FILES
+        resources.qrc
+)

@@ -1,8 +1,8 @@
 import QtQuick
 import QtQuick.Controls 2.15
+import QtQuick.Controls.Material 2.15
 import QtQuick.Layouts 1.15
 import QtQuick.Dialogs
-import org.kde.kirigami 2.20 as Kirigami
 
 Item {
     id: root
@@ -20,143 +20,169 @@ Item {
 
     signal saveRequested(string path, string contents)
 
-    Kirigami.ActionToolBar {
+    // Material Design 툴바
+    ToolBar {
         id: toolBar
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: parent.top
-        actions: [
-            Kirigami.Action {
-                text: qsTr("New")
-                icon.name
-        :
-        "document-new"
-        onTriggered: {
-            editor.text = "# New note\n\nStart typing…";
-            root.currentPath = "";
-            root.newRequested();
-        }
-    }
-    ,
-    Kirigami.Action {
-        text: qsTr("Open")
-        icon.name: "document-open"
-        onTriggered: openDialog.open()
-    }
-    ,
-    Kirigami.Action {
-        text: qsTr("Save")
-        icon.name: "document-save"
-        onTriggered: {
-            if (root.currentPath === "") {
-                saveDialog.open();
-            } else {
-                root.saveRequested(root.currentPath, editor.text);
+        Material.primary: Material.BlueGrey
+
+        RowLayout {
+            anchors.fill: parent
+            anchors.margins: 8
+            spacing: 8
+
+            Button {
+                text: qsTr("📄 New")
+                flat: true
+                Material.foreground: "white"
+                onClicked: {
+                    editor.text = "# New note\n\nStart typing…";
+                    root.currentPath = "";
+                    root.newRequested();
+                }
+            }
+
+            Button {
+                text: qsTr("📁 Open")
+                flat: true
+                Material.foreground: "white"
+                onClicked: openDialog.open()
+            }
+
+            Button {
+                text: qsTr("💾 Save")
+                flat: true
+                Material.foreground: "white"
+                onClicked: {
+                    if (root.currentPath === "") {
+                        saveDialog.open();
+                    } else {
+                        root.saveRequested(root.currentPath, editor.text);
+                    }
+                }
+            }
+
+            Rectangle {
+                width: 1
+                height: parent.height * 0.6
+                color: Material.dividerColor
+                Layout.alignment: Qt.AlignVCenter
+            }
+
+            Button {
+                text: root.splitView ? qsTr("📑 Single") : qsTr("📊 Split")
+                flat: true
+                Material.foreground: "white"
+                onClicked: root.splitView = !root.splitView
+            }
+
+            Button {
+                text: root.showPreview ? qsTr("👁️ Hide") : qsTr("👀 Preview")
+                flat: true
+                Material.foreground: "white"
+                onClicked: root.showPreview = !root.showPreview
+            }
+
+            Item {
+                Layout.fillWidth: true
             }
         }
     }
-    ,
-    Kirigami.Action {
-        separator: true
-    }
-    ,
-    Kirigami.Action {
-        text: root.splitView ? qsTr("Single Pane") : qsTr("Split View")
-        icon.name: root.splitView ? "view-restore" : "view-split-left-right"
-        onTriggered: root.splitView = !root.splitView
-    }
-    ,
-    Kirigami.Action {
-        text: root.showPreview ? qsTr("Hide Preview") : qsTr("Show Preview")
-        icon.name: "preview"
-        onTriggered: root.showPreview = !root.showPreview
-    }
-    ]
-}
 
 // Layout area
-RowLayout {
+    Item {
     id: content
     anchors.left: parent.left
     anchors.right: parent.right
     anchors.top: toolBar.bottom
     anchors.bottom: parent.bottom
-    spacing: 8
-    leftPadding: 8
-    rightPadding: 8
-    bottomPadding: 8
+        anchors.margins: 8
 
-    // Editor pane
-    ScrollView {
-        id: editorPane
-        visible: !root.showPreview || root.splitView
-        Layout.fillHeight: true
-        Layout.fillWidth: root.splitView ? true : !root.showPreview
-        Layout.preferredWidth: root.splitView ? 0.5 : 1
-        clip: true
-
-        TextArea {
-            id: editor
-            width: parent.width
-            height: parent.height
-            placeholderText: qsTr("# Markdown\n\nType here…")
-            wrapMode: TextEdit.Wrap
-            font.family: "Menlo, Monaco, Consolas, 'Courier New', monospace"
-            font.pointSize: 12
-            selectByMouse: true
-            persistentSelection: true
-        }
-    }
-
-    // Preview pane
-    ScrollView {
-        id: previewPane
-        visible: root.showPreview
-        Layout.fillHeight: true
-        Layout.fillWidth: root.splitView ? true : root.showPreview
-        Layout.preferredWidth: root.splitView ? 0.5 : 1
-        clip: true
-
-        Rectangle { // background for contrast
+        RowLayout {
             anchors.fill: parent
-            color: Qt.rgba(1, 1, 1, 0.03)
+            spacing: 8
 
-            Text {
-                id: preview
-                anchors.fill: parent
-                anchors.margins: 12
-                text: editor.text
-                textFormat: Text.MarkdownText
-                wrapMode: Text.WordWrap
-                color: "#f0f0f0"
-                font.pointSize: 12
+            // Material Design 에디터 카드
+            Pane {
+                visible: !root.showPreview || root.splitView
+                Layout.fillHeight: true
+                Layout.fillWidth: root.splitView ? true : !root.showPreview
+                Layout.preferredWidth: root.splitView ? 0.5 : 1
+                Material.elevation: 2
+
+                ScrollView {
+                    id: editorPane
+                    anchors.fill: parent
+                    clip: true
+
+                    TextArea {
+                        id: editor
+                        placeholderText: qsTr("# Markdown\n\nType here…")
+                        wrapMode: TextEdit.Wrap
+                        font.family: "SF Mono, Monaco, Consolas, 'Courier New', monospace"
+                        font.pointSize: 13
+                        selectByMouse: true
+                        persistentSelection: true
+
+                        Material.theme: Material.Dark
+                        background: Rectangle {
+                            color: Material.backgroundColor
+                            radius: 4
+                        }
+                    }
+                }
+            }
+
+            // Material Design 프리뷰 카드
+            Pane {
+                visible: root.showPreview
+                Layout.fillHeight: true
+                Layout.fillWidth: root.splitView ? true : root.showPreview
+                Layout.preferredWidth: root.splitView ? 0.5 : 1
+                Material.elevation: 2
+
+                ScrollView {
+                    id: previewPane
+                    anchors.fill: parent
+                    clip: true
+
+                    Text {
+                        id: preview
+                        width: previewPane.width - 24
+                        text: editor.text
+                        textFormat: Text.MarkdownText
+                        wrapMode: Text.WordWrap
+                        color: Material.primaryTextColor
+                        font.pointSize: 13
+                        padding: 12
+                    }
+                }
             }
         }
-    }
-}
 
-FileDialog {
-    id: openDialog
-    title: qsTr("Open Markdown")
-    currentFolder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
-    nameFilters: [qsTr("Markdown (*.md *.markdown)"), qsTr("Text (*.txt)"), qsTr("All Files (*)")]
-    onAccepted: {
-        // QML has no direct file I/O; emit signal for C++ side
-        root.currentPath = selectedFile.toString()
-        root.openRequested(root.currentPath)
-    }
-}
+        FileDialog {
+            id: openDialog
+            title: qsTr("Open Markdown")
+            nameFilters: [qsTr("Markdown (*.md *.markdown)"), qsTr("Text (*.txt)"), qsTr("All Files (*)")]
+            onAccepted: {
+                // QML has no direct file I/O; emit signal for C++ side
+                root.currentPath = selectedFile.toString()
+                root.openRequested(root.currentPath)
+            }
+        }
 
-FileDialog {
-    id: saveDialog
-    title: qsTr("Save Markdown")
-    currentFolder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
-    fileMode: FileDialog.SaveFile
-    defaultSuffix: "md"
-    nameFilters: [qsTr("Markdown (*.md *.markdown)")]
-    onAccepted: {
-        root.currentPath = selectedFile.toString()
-        root.saveRequested(root.currentPath, editor.text)
-    }
+        FileDialog {
+            id: saveDialog
+            title: qsTr("Save Markdown")
+            fileMode: FileDialog.SaveFile
+            defaultSuffix: "md"
+            nameFilters: [qsTr("Markdown (*.md *.markdown)")]
+            onAccepted: {
+                root.currentPath = selectedFile.toString()
+                root.saveRequested(root.currentPath, editor.text)
+            }
+        }
 }
 }

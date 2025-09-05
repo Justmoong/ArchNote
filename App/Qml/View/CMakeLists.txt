@@ -9,5 +9,6 @@ qt_add_qml_module(ArchNoteAppQmlView
         QtQuick
         QtQuick.Controls
         QtQuick.Dialogs
-        org.kde.kirigami
+        QtQuick.Controls.Material
+        Components
 )

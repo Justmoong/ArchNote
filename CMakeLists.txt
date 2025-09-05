@@ -51,6 +51,10 @@ if(UNIX AND NOT APPLE)
         message(FATAL_ERROR "Qt not found in ${QT_DIR}. Please install Qt in your home directory.")
     endif()
 elseif(APPLE)
+    # macOS에서 Homebrew Qt 사용 (Kirigami와 호환성을 위해)
+    set (CMAKE_PREFIX_PATH "/opt/homebrew/opt/qt" CACHE PATH "Qt installation path" FORCE)
+    message (STATUS "Using Homebrew Qt from: /opt/homebrew/opt/qt")
+
     set(CMAKE_FIND_FRAMEWORK FIRST)
     list(PREPEND CMAKE_SYSTEM_FRAMEWORK_PATH
             "${CMAKE_OSX_SYSROOT}/System/Library/Frameworks"
@@ -59,7 +63,7 @@ elseif(APPLE)
 endif()
 
 # 패키지 찾기
-find_package(Qt6 6.8 REQUIRED COMPONENTS
+find_package (Qt6 6.0 REQUIRED COMPONENTS
         Core
         Gui
         Quick
@@ -76,11 +80,10 @@ find_package(KF6 REQUIRED COMPONENTS
         I18n
         Config
         Svg
-        Kirigami
 )
 
 # Qt 프로젝트 설정
-qt_standard_project_setup (REQUIRES 6.8)
+qt_standard_project_setup (REQUIRES 6.0)
 
 # 서브디렉토리 추가
 add_subdirectory(App)
@@ -113,7 +116,6 @@ list (PREPEND CMAKE_SYSTEM_FRAMEWORK_PATH
 
 target_link_libraries (ArchNote PRIVATE
         KF6::Svg
-        KF6::Kirigami
 )
 
 # 리소스 추가
