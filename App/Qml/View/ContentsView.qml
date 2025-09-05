@@ -1,6 +1,8 @@
 import QtQuick
 import QtQuick.Controls 2.15
 import QtQuick.Layouts
+import Components 1.0
+
 
 Item {
 

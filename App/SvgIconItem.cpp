@@ -6,7 +6,8 @@
 #include <QResource>
 #include <QDebug>
 
-static QString toDevicePath(const QUrl& url) {
+static QString toDevicePath(const QUrl& url)
+{
     if (!url.isValid())
         return {};
     if (url.scheme() == QStringLiteral("qrc"))
@@ -17,7 +18,8 @@ static QString toDevicePath(const QUrl& url) {
     QString s = url.toString();
     if (s.startsWith(QStringLiteral(":/")))
         return s;
-    if (s.startsWith(QStringLiteral(":"))) {
+    if (s.startsWith(QStringLiteral(":")))
+    {
         if (s.size() < 2 || s[1] != QChar('/'))
             s.insert(1, QChar('/'));
         return s;
@@ -35,30 +37,38 @@ SvgIconItem::SvgIconItem(QQuickItem* parent)
 
 SvgIconItem::~SvgIconItem() = default;
 
-void SvgIconItem::ensureSvg() {
+void SvgIconItem::ensureSvg()
+{
     if (!m_svg)
         m_svg = std::make_unique<QSvgRenderer>();
 }
 
-void SvgIconItem::applySource() {
+void SvgIconItem::applySource()
+{
     const QString path = toDevicePath(m_source);
     if (path.isEmpty())
         return;
 
     ensureSvg();
-    if (QFile::exists(path)) {
-        if (!m_svg->load(path)) {
+    if (QFile::exists(path))
+    {
+        if (!m_svg->load(path))
+        {
             qWarning() << "[SvgIconItem] Failed to load SVG from" << path;
         }
-    } else {
+    }
+    else
+    {
         QFile f(path);
-        if (!f.open(QIODevice::ReadOnly)) {
+        if (!f.open(QIODevice::ReadOnly))
+        {
             qWarning() << "[SvgIconItem] Failed to open" << path;
             return;
         }
         const QByteArray bytes = f.readAll();
         f.close();
-        if (!m_svg->load(bytes)) {
+        if (!m_svg->load(bytes))
+        {
             qWarning() << "[SvgIconItem] Failed to parse SVG bytes from" << path;
             return;
         }
@@ -92,7 +102,8 @@ void SvgIconItem::setSmooth(bool s) {
     update();
 }
 
-void SvgIconItem::setDevicePixelRatio(qreal dpr) {
+void SvgIconItem::setDevicePixelRatio(qreal dpr)
+{
     if (qFuzzyCompare(m_dpr, dpr))
         return;
     m_dpr = dpr;
@@ -100,7 +111,8 @@ void SvgIconItem::setDevicePixelRatio(qreal dpr) {
     update();
 }
 
-void SvgIconItem::setFitMode(FitMode m) {
+void SvgIconItem::setFitMode(FitMode m)
+{
     if (m_fitMode == m)
         return;
     m_fitMode = m;
@@ -122,15 +134,19 @@ QRectF SvgIconItem::elementBounds() const {
     return QRectF(0, 0, width(), height());
 }
 
-void SvgIconItem::updateImplicitSize() {
+void SvgIconItem::updateImplicitSize()
+{
     const QRectF b = elementBounds();
-    if (!b.isEmpty()) {
+    if (!b.isEmpty())
+    {
         // 기본 아이콘 크기 힌트(24 또는 SVG 기본 크기)
         const qreal base = 24.0;
         const qreal scale = b.height() > 0 ? base / b.height() : 1.0;
         setImplicitWidth(b.width() * scale);
         setImplicitHeight(b.height() * scale);
-    } else {
+    }
+    else
+    {
         setImplicitWidth(24);
         setImplicitHeight(24);
     }
@@ -174,25 +190,28 @@ void SvgIconItem::paint(QPainter* p) {
     qreal scaleY = sy;
     QPointF topLeft = dstRect.topLeft();
 
-    switch (m_fitMode) {
-    case PreserveAspectFit: {
-        const qreal s = qMin(sx, sy);
-        const QSizeF scaled(srcBounds.size() * s);
-        const QPointF offset((dstRect.width() - scaled.width()) / 2.0,
-                             (dstRect.height() - scaled.height()) / 2.0);
-        scaleX = scaleY = s;
-        topLeft += offset;
-        break;
-    }
-    case PreserveAspectCrop: {
-        const qreal s = qMax(sx, sy);
-        const QSizeF scaled(srcBounds.size() * s);
-        const QPointF offset((dstRect.width() - scaled.width()) / 2.0,
-                             (dstRect.height() - scaled.height()) / 2.0);
-        scaleX = scaleY = s;
-        topLeft += offset;
-        break;
-    }
+    switch (m_fitMode)
+    {
+    case PreserveAspectFit:
+        {
+            const qreal s = qMin(sx, sy);
+            const QSizeF scaled(srcBounds.size() * s);
+            const QPointF offset((dstRect.width() - scaled.width()) / 2.0,
+                                 (dstRect.height() - scaled.height()) / 2.0);
+            scaleX = scaleY = s;
+            topLeft += offset;
+            break;
+        }
+    case PreserveAspectCrop:
+        {
+            const qreal s = qMax(sx, sy);
+            const QSizeF scaled(srcBounds.size() * s);
+            const QPointF offset((dstRect.width() - scaled.width()) / 2.0,
+                                 (dstRect.height() - scaled.height()) / 2.0);
+            scaleX = scaleY = s;
+            topLeft += offset;
+            break;
+        }
     case Stretch:
         // sx, sy 그대로 사용
         break;

@@ -5,32 +5,32 @@ project(ArchNote LANGUAGES C CXX)
 message (STATUS "SYSROOT=${CMAKE_OSX_SYSROOT}")
 
 # macOS에서 WrapOpenGL 탐색 우회
+if(APPLE)
+    set (_sdk_gl "${CMAKE_OSX_SYSROOT}/System/Library/Frameworks/OpenGL.framework/Headers/gl.h")
+    if (EXISTS "${_sdk_gl}")
+        message (STATUS "OpenGL.h in SDK: YES -> ${_sdk_gl}")
+    else ()
+        message (STATUS "OpenGL.h in SDK: NO")
+    endif ()
 
-set (_sdk_gl "${CMAKE_OSX_SYSROOT}/System/Library/Frameworks/OpenGL.framework/Headers/gl.h")
-if (EXISTS "${_sdk_gl}")
-    message (STATUS "OpenGL.h in SDK: YES -> ${_sdk_gl}")
-else ()
-    message (STATUS "OpenGL.h in SDK: NO")
+    message (STATUS "GL.h exists? " $<BOOL:$ENV{SDK_GL_H_EXISTS}>)
+
+    set (CMAKE_FIND_FRAMEWORK FIRST)
+    list (PREPEND CMAKE_SYSTEM_FRAMEWORK_PATH
+            "${CMAKE_OSX_SYSROOT}/System/Library/Frameworks"
+            "${CMAKE_OSX_SYSROOT}/Library/Frameworks")
+
+    set (CMAKE_DISABLE_FIND_PACKAGE_OpenGL ON)
+    set (OPENGL_LIBRARIES "-framework OpenGL" CACHE STRING "" FORCE)
+    set (OPENGL_gl_LIBRARY "-framework OpenGL" CACHE STRING "" FORCE)
+    set (OPENGL_opengl_LIBRARY "-framework OpenGL" CACHE STRING "" FORCE)
+    set (OPENGL_INCLUDE_DIR "" CACHE PATH "" FORCE)
+
+    set (CMAKE_DISABLE_FIND_PACKAGE_WrapOpenGL ON)
+    add_library (WrapOpenGL::WrapOpenGL INTERFACE IMPORTED)
+    target_link_libraries (WrapOpenGL::WrapOpenGL INTERFACE "-framework OpenGL")
+    set (WrapOpenGL_FOUND TRUE)
 endif ()
-
-message (STATUS "GL.h exists? " $<BOOL:$ENV{SDK_GL_H_EXISTS}>)
-
-set (CMAKE_FIND_FRAMEWORK FIRST)
-list (PREPEND CMAKE_SYSTEM_FRAMEWORK_PATH
-        "${CMAKE_OSX_SYSROOT}/System/Library/Frameworks"
-        "${CMAKE_OSX_SYSROOT}/Library/Frameworks")
-
-set (CMAKE_DISABLE_FIND_PACKAGE_OpenGL ON)
-set (OPENGL_LIBRARIES "-framework OpenGL" CACHE STRING "" FORCE)
-set (OPENGL_gl_LIBRARY "-framework OpenGL" CACHE STRING "" FORCE)
-set (OPENGL_opengl_LIBRARY "-framework OpenGL" CACHE STRING "" FORCE)
-set (OPENGL_INCLUDE_DIR "" CACHE PATH "" FORCE)
-
-set (CMAKE_DISABLE_FIND_PACKAGE_WrapOpenGL ON)
-add_library (WrapOpenGL::WrapOpenGL INTERFACE IMPORTED)
-target_link_libraries (WrapOpenGL::WrapOpenGL INTERFACE "-framework OpenGL")
-set (WrapOpenGL_FOUND TRUE)
-
 
 # 리눅스 런치 전용 Qt 설치 경로 설정
 if(UNIX AND NOT APPLE)
@@ -51,6 +51,10 @@ if(UNIX AND NOT APPLE)
         message(FATAL_ERROR "Qt not found in ${QT_DIR}. Please install Qt in your home directory.")
     endif()
 elseif(APPLE)
+    # macOS에서 Homebrew Qt 사용 (Kirigami와 호환성을 위해)
+    set (CMAKE_PREFIX_PATH "/opt/homebrew/opt/qt" CACHE PATH "Qt installation path" FORCE)
+    message (STATUS "Using Homebrew Qt from: /opt/homebrew/opt/qt")
+
     set(CMAKE_FIND_FRAMEWORK FIRST)
     list(PREPEND CMAKE_SYSTEM_FRAMEWORK_PATH
             "${CMAKE_OSX_SYSROOT}/System/Library/Frameworks"
@@ -59,7 +63,7 @@ elseif(APPLE)
 endif()
 
 # 패키지 찾기
-find_package(Qt6 REQUIRED COMPONENTS
+find_package (Qt6 6.0 REQUIRED COMPONENTS
         Core
         Gui
         Quick
@@ -79,7 +83,7 @@ find_package(KF6 REQUIRED COMPONENTS
 )
 
 # Qt 프로젝트 설정
-qt_standard_project_setup (REQUIRES 6.8)
+qt_standard_project_setup (REQUIRES 6.0)
 
 # 서브디렉토리 추가
 add_subdirectory(App)
@@ -91,10 +95,24 @@ target_link_libraries(ArchNote PRIVATE
         Qt6::Gui
         Qt6::Quick
         Qt6::Qml
-        Qt6::QuickControls2
         Qt6::Svg
-
 )
+
+set (CMAKE_FIND_FRAMEWORK FIRST)
+list (PREPEND CMAKE_SYSTEM_FRAMEWORK_PATH
+        "${CMAKE_OSX_SYSROOT}/System/Library/Frameworks"
+        "${CMAKE_OSX_SYSROOT}/Library/Frameworks")
+
+#set (CMAKE_DISABLE_FIND_PACKAGE_OpenGL ON)
+#set (OPENGL_LIBRARIES "-framework OpenGL" CACHE STRING "" FORCE)
+#set (OPENGL_gl_LIBRARY "-framework OpenGL" CACHE STRING "" FORCE)
+#set (OPENGL_opengl_LIBRARY "-framework OpenGL" CACHE STRING "" FORCE)
+#set (OPENGL_INCLUDE_DIR "" CACHE PATH "" FORCE)
+#
+#set (CMAKE_DISABLE_FIND_PACKAGE_WrapOpenGL ON)
+#add_library (WrapOpenGL::WrapOpenGL INTERFACE IMPORTED)
+#target_link_libraries (WrapOpenGL::WrapOpenGL INTERFACE "-framework OpenGL")
+
 
 target_link_libraries (ArchNote PRIVATE
         KF6::Svg
