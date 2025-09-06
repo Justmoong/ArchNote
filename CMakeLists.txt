@@ -75,6 +75,7 @@ find_package(KF6 REQUIRED COMPONENTS
 
 # Qt 프로젝트 설정
 qt_standard_project_setup (REQUIRES 6.0)
+qt_policy (SET QTP0001 NEW)
 
 # 서브디렉토리 추가
 add_subdirectory(App)
