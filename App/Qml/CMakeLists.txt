@@ -1,7 +1,10 @@
-add_subdirectory(View)
-add_subdirectory(Components)
-
 file(GLOB_RECURSE ALL_QML_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*.qml")
+
+qt_add_resources (ArchNote "qml_resources"
+        PREFIX "/qml"
+        FILES
+        Main.qml
+)
 
 qt_add_qml_module(ArchNoteAppQml
         URI Qml
@@ -9,12 +12,5 @@ qt_add_qml_module(ArchNoteAppQml
         QML_FILES
         ${ALL_QML_FILES}
         DEPENDENCIES
-        View
-        Components
 )
 
-qt_add_resources(ArchNote "qml_resources"
-        PREFIX "/qml"
-        FILES
-        Main.qml
-)

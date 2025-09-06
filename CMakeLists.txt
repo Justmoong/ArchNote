@@ -50,16 +50,6 @@ if(UNIX AND NOT APPLE)
     else()
         message(FATAL_ERROR "Qt not found in ${QT_DIR}. Please install Qt in your home directory.")
     endif()
-elseif(APPLE)
-    # macOS에서 Homebrew Qt 사용 (Kirigami와 호환성을 위해)
-    set (CMAKE_PREFIX_PATH "/opt/homebrew/opt/qt" CACHE PATH "Qt installation path" FORCE)
-    message (STATUS "Using Homebrew Qt from: /opt/homebrew/opt/qt")
-
-    set(CMAKE_FIND_FRAMEWORK FIRST)
-    list(PREPEND CMAKE_SYSTEM_FRAMEWORK_PATH
-            "${CMAKE_OSX_SYSROOT}/System/Library/Frameworks"
-            "${CMAKE_OSX_SYSROOT}/Library/Frameworks"
-    )
 endif()
 
 # 패키지 찾기
@@ -80,6 +70,7 @@ find_package(KF6 REQUIRED COMPONENTS
         I18n
         Config
         Svg
+        Kirigami
 )
 
 # Qt 프로젝트 설정
@@ -87,7 +78,6 @@ qt_standard_project_setup (REQUIRES 6.0)
 
 # 서브디렉토리 추가
 add_subdirectory(App)
-add_subdirectory(Test EXCLUDE_FROM_ALL)
 
 # 링크 라이브러리
 target_link_libraries(ArchNote PRIVATE
@@ -98,43 +88,30 @@ target_link_libraries(ArchNote PRIVATE
         Qt6::Svg
 )
 
-set (CMAKE_FIND_FRAMEWORK FIRST)
-list (PREPEND CMAKE_SYSTEM_FRAMEWORK_PATH
-        "${CMAKE_OSX_SYSROOT}/System/Library/Frameworks"
-        "${CMAKE_OSX_SYSROOT}/Library/Frameworks")
-
-#set (CMAKE_DISABLE_FIND_PACKAGE_OpenGL ON)
-#set (OPENGL_LIBRARIES "-framework OpenGL" CACHE STRING "" FORCE)
-#set (OPENGL_gl_LIBRARY "-framework OpenGL" CACHE STRING "" FORCE)
-#set (OPENGL_opengl_LIBRARY "-framework OpenGL" CACHE STRING "" FORCE)
-#set (OPENGL_INCLUDE_DIR "" CACHE PATH "" FORCE)
-#
-#set (CMAKE_DISABLE_FIND_PACKAGE_WrapOpenGL ON)
-#add_library (WrapOpenGL::WrapOpenGL INTERFACE IMPORTED)
-#target_link_libraries (WrapOpenGL::WrapOpenGL INTERFACE "-framework OpenGL")
-
-
 target_link_libraries (ArchNote PRIVATE
         KF6::Svg
 )
 
 # 리소스 추가
 file (GLOB ICON_FILES "App/icons/*.svg")
-if(ICON_FILES)
-    qt_add_resources(ArchNote "resources"
+if (ICON_FILES)
+    qt_add_resources (ArchNote "resources"
             PREFIX "/Icons"
             BASE "App/icons"
             FILES ${ICON_FILES}
     )
-endif()
+endif ()
 
 # 플랫폼별 실행파일 속성 설정
-if(APPLE)
+if (APPLE)
     set_target_properties(ArchNote PROPERTIES
             MACOSX_BUNDLE TRUE
+            MACOSX_BUNDLE_GUI_IDENTIFIER "com.iisacc.ArchNote"
+            MACOSX_BUNDLE_BUNDLE_NAME "ArchNote"
     )
-elseif(WIN32)
-    set_target_properties(ArchNote PROPERTIES
+
+elseif (WIN32)
+    set_target_properties (ArchNote PROPERTIES
             WIN32_EXECUTABLE TRUE
     )
 elseif(UNIX)

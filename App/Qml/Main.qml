@@ -1,9 +1,6 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import View
-import Components
-import ArchNote 1.0
 
 ApplicationWindow {
     id: window
@@ -40,9 +37,5 @@ ApplicationWindow {
         id: windowBackground
         anchors.fill: parent
         color: "#373737"
-
-        ContentsView {
-            anchors.fill: parent
-        }
     }
 }

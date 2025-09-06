@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(otool:*)",
+      "Read(//Users/ymy/CraftRoot/lib/QtQuickControls2.framework/**)",
+      "Bash(brew install:*)",
+      "Bash(make:*)",
+      "Bash(open App/ArchNote.app)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
