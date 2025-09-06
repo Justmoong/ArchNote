@@ -32,26 +32,6 @@ if(APPLE)
     set (WrapOpenGL_FOUND TRUE)
 endif ()
 
-# 리눅스 런치 전용 Qt 설치 경로 설정
-if(UNIX AND NOT APPLE)
-    # 시스템 Qt 경로 제거
-    list(REMOVE_ITEM CMAKE_PREFIX_PATH "/usr/lib/x86_64-linux-gnu/cmake")
-    list(REMOVE_ITEM CMAKE_PREFIX_PATH "/usr/lib/x86_64-linux-gnu/cmake/Qt6")
-
-    # 홈 디렉토리의 Qt 찾기
-    set(QT_DIR "$ENV{HOME}/Qt")
-    file(GLOB QT_VERSIONS "${QT_DIR}/6.*/gcc_64")
-    if(QT_VERSIONS)
-        list(SORT QT_VERSIONS)
-        list(REVERSE QT_VERSIONS)
-        list(GET QT_VERSIONS 0 QT_VERSION_PATH)
-        set(CMAKE_PREFIX_PATH "${QT_VERSION_PATH}" CACHE PATH "Qt installation path" FORCE)
-        message(STATUS "Using Qt from: ${QT_VERSION_PATH}")
-    else()
-        message(FATAL_ERROR "Qt not found in ${QT_DIR}. Please install Qt in your home directory.")
-    endif()
-endif()
-
 # 패키지 찾기
 find_package (Qt6 6.0 REQUIRED COMPONENTS
         Core
@@ -92,9 +72,9 @@ target_link_libraries(ArchNote PRIVATE
 
 target_link_libraries (ArchNote PRIVATE
         KF6::Svg
+        KF6::I18n
         KF6::Kirigami
         KF6::KirigamiAddons
-        KF6::I18n
 )
 
 # 리소스 추가
@@ -118,10 +98,6 @@ if (APPLE)
 elseif (WIN32)
     set_target_properties (ArchNote PROPERTIES
             WIN32_EXECUTABLE TRUE
-    )
-elseif(UNIX)
-    set_target_properties(ArchNote PROPERTIES
-            OUTPUT_NAME "ArchNote"
     )
 endif()
 
