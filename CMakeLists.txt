@@ -91,6 +91,8 @@ target_link_libraries(ArchNote PRIVATE
 
 target_link_libraries (ArchNote PRIVATE
         KF6::Svg
+        KF6::Kirigami
+        KF6::I18n
 )
 
 # 리소스 추가

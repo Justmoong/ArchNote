@@ -1,41 +1,25 @@
 import QtQuick
-import QtQuick.Controls
-import QtQuick.Layouts
+import QtQuick.Controls as Controls
+import org.kde.kirigami as Kirigami
+import org.kde.kirigamiaddons.delegates as Delegates
+import org.kde.kirigamiaddons.components as Components
 
-ApplicationWindow {
-    id: window
-    title: "Arch Note"
-    width: 1440
-    height: 900
+Kirigami.ApplicationWindow {
+    id: root
     visible: true
-    minimumWidth: 720
+    width: 1080
+    height: 720
+    minimumWidth: 480
     minimumHeight: 480
-
+    title: "ArchNote"
     color: "transparent"
 
-    header: Rectangle {
-        id: titleBar
-        height: 40
-        color: "transparent"
+    // Kirigami 6: 헤더 설정은 pageStack(PageRow)의 globalToolBar로 제어
+    pageStack.globalToolBar.style: Kirigami.ApplicationHeaderStyle.Auto
+    pageStack.globalToolBar.showNavigationButtons: Kirigami.ApplicationHeaderStyle.ShowBackButton
 
+    // 초기 페이지
+    ContentsView {
 
-        MouseArea {
-            id: dragArea
-            anchors.fill: parent
-            acceptedButtons: Qt.LeftButton
-            hoverEnabled: false
-            onPressed: {
-                if (mouse.button === Qt.LeftButton) {
-                    window.startSystemMove()
-                }
-            }
-        }
-    }
-
-    // 배경은 전체로 깔고, 상단은 투명 header가 덮는 구조
-    Rectangle {
-        id: windowBackground
-        anchors.fill: parent
-        color: "#373737"
     }
 }

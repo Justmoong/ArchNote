@@ -6,6 +6,10 @@
 #include <QtQml/qqml.h>
 #include <QtCore/QString>
 #include <QSGRendererInterface>
+#include <QQmlContext>
+
+#include <KLocalizedString>
+#include <KLocalizedContext>
 
 using namespace Qt::StringLiterals;
 
@@ -21,7 +25,8 @@ int main(int argc, char *argv[])
         &app,
         []() { QCoreApplication::exit(-1); },
         Qt::QueuedConnection);
-
+    engine.addImportPath(u"/Users/ymy/CraftRoot/qml"_s);
+    engine.rootContext()->setContextObject(new KLocalizedContext(&engine));
     engine.load(QUrl(u"qrc:/qml/Main.qml"_s));
 
     return app.exec();

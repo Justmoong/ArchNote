@@ -4,6 +4,7 @@ qt_add_resources (ArchNote "qml_resources"
         PREFIX "/qml"
         FILES
         Main.qml
+        ContentsView.qml
 )
 
 qt_add_qml_module(ArchNoteAppQml
