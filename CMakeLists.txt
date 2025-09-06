@@ -71,6 +71,7 @@ find_package(KF6 REQUIRED COMPONENTS
         Config
         Svg
         Kirigami
+        KirigamiAddons
 )
 
 # Qt 프로젝트 설정
@@ -92,6 +93,7 @@ target_link_libraries(ArchNote PRIVATE
 target_link_libraries (ArchNote PRIVATE
         KF6::Svg
         KF6::Kirigami
+        KF6::KirigamiAddons
         KF6::I18n
 )
 

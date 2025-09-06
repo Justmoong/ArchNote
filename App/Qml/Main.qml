@@ -14,7 +14,6 @@ Kirigami.ApplicationWindow {
     title: "ArchNote"
     color: "transparent"
 
-    // Kirigami 6: 헤더 설정은 pageStack(PageRow)의 globalToolBar로 제어
     pageStack.globalToolBar.style: Kirigami.ApplicationHeaderStyle.Auto
     pageStack.globalToolBar.showNavigationButtons: Kirigami.ApplicationHeaderStyle.ShowBackButton
 

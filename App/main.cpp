@@ -26,6 +26,7 @@ int main(int argc, char *argv[])
         []() { QCoreApplication::exit(-1); },
         Qt::QueuedConnection);
     engine.addImportPath(u"/Users/ymy/CraftRoot/qml"_s);
+    engine.addImportPath(u"/Users/ymy/kde/build"_s);
     engine.rootContext()->setContextObject(new KLocalizedContext(&engine));
     engine.load(QUrl(u"qrc:/qml/Main.qml"_s));
 
