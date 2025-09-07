@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.24)
 project(ArchNote LANGUAGES C CXX)
 
+set (QT_MIN_VERSION 6.6.0)
+set (KF_MIN_VERSION 6.3.0)
 
 message (STATUS "SYSROOT=${CMAKE_OSX_SYSROOT}")
 
@@ -32,6 +34,8 @@ if(APPLE)
     set (WrapOpenGL_FOUND TRUE)
 endif ()
 
+set (APPLE_SUPPRESS_X11_WARNING ON)
+
 # 패키지 찾기
 find_package (Qt6 6.0 REQUIRED COMPONENTS
         Core
@@ -42,8 +46,13 @@ find_package (Qt6 6.0 REQUIRED COMPONENTS
         Svg
 )
 
-find_package(ECM REQUIRED NO_MODULE)
+find_package (ECM ${KF_MIN_VERSION} REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
+
+include (KDEInstallDirs)
+include (KDECompilerSettings)
+include (KDECMakeSettings)
+include (ECMQmlModule)
 
 find_package(KF6 REQUIRED COMPONENTS
         CoreAddons
@@ -71,21 +80,12 @@ target_link_libraries(ArchNote PRIVATE
 )
 
 target_link_libraries (ArchNote PRIVATE
+        KF6::CoreAddons
         KF6::Svg
         KF6::I18n
         KF6::Kirigami
-        KF6::KirigamiAddons
+        #        KF6::KirigamiAddons
 )
-
-# 리소스 추가
-file (GLOB ICON_FILES "App/icons/*.svg")
-if (ICON_FILES)
-    qt_add_resources (ArchNote "resources"
-            PREFIX "/Icons"
-            BASE "App/icons"
-            FILES ${ICON_FILES}
-    )
-endif ()
 
 # 플랫폼별 실행파일 속성 설정
 if (APPLE)
