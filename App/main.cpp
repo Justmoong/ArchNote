@@ -30,8 +30,8 @@ int main(int argc, char *argv[])
         Qt::QueuedConnection);
 
     // Add optional import paths from CMake definition and environment variables
-    auto addImportPaths = [&](const QStringList &paths) {
-        for (const auto &p : paths) {
+    auto addImportPaths = [&](const QStringList& paths) {
+        for (const auto& p : paths) {
             if (!p.isEmpty()) {
                 engine.addImportPath(p);
             }
@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
     }
 #endif
 
-    auto addFromEnv = [&](const char *name) {
+    auto addFromEnv = [&](const char* name) {
         const QByteArray v = qgetenv(name);
         if (!v.isEmpty()) {
             const QString s = QString::fromLocal8Bit(v);
