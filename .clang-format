@@ -1,0 +1,13 @@
+BasedOnStyle: LLVM
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
+ColumnLimit: 100
+AccessModifierOffset: -2
+NamespaceIndentation: None
+PointerAlignment: Left
+AllowShortFunctionsOnASingleLine: Empty
+SortIncludes: true
+IncludeBlocks: Regroup
+SpacesInParentheses: false
+SpaceBeforeParens: ControlStatements

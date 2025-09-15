@@ -13,12 +13,4 @@ Kirigami.ApplicationWindow {
     minimumHeight: 480
     title: "ArchNote"
     color: "transparent"
-
-    pageStack.globalToolBar.style: Kirigami.ApplicationHeaderStyle.Auto
-    pageStack.globalToolBar.showNavigationButtons: Kirigami.ApplicationHeaderStyle.ShowBackButton
-
-    // 초기 페이지
-    ContentsView {
-
-    }
 }

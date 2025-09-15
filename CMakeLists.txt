@@ -101,5 +101,52 @@ elseif (WIN32)
     )
 endif()
 
+# 개발 편의를 위한 QML import 경로(옵션)
+option (ARCHNOTE_ENABLE_DEV_QML_IMPORTS "Enable extra dev QML import paths" OFF)
+set (ARCHNOTE_DEV_QML_IMPORTS "" CACHE STRING "Semicolon-separated list of extra QML import paths.")
+if (ARCHNOTE_ENABLE_DEV_QML_IMPORTS AND ARCHNOTE_DEV_QML_IMPORTS)
+    target_compile_definitions (ArchNote PRIVATE ARCHNOTE_DEV_QML_IMPORTS="${ARCHNOTE_DEV_QML_IMPORTS}")
+endif ()
+
 # 테스트 활성화
 enable_testing()
+
+# Formatting and lint helpers (optional)
+find_program (CLANG_FORMAT NAMES clang-format)
+if (CLANG_FORMAT)
+    file (GLOB_RECURSE CXX_SOURCES
+            "${CMAKE_SOURCE_DIR}/*.h" "${CMAKE_SOURCE_DIR}/*.hpp" "${CMAKE_SOURCE_DIR}/*.cpp"
+            "${CMAKE_SOURCE_DIR}/App/*.h" "${CMAKE_SOURCE_DIR}/App/*.hpp" "${CMAKE_SOURCE_DIR}/App/*.cpp")
+    add_custom_target (format
+            COMMAND ${CLANG_FORMAT} -i ${CXX_SOURCES}
+            WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+            COMMENT "Formatting C++ sources with clang-format")
+endif ()
+
+find_program (QMLLINT NAMES qmllint)
+if (QMLLINT)
+    add_custom_target (qml_lint
+            COMMAND ${QMLLINT} --builtins --recursive "${CMAKE_SOURCE_DIR}/App/Qml"
+            WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+            COMMENT "Linting QML with qmllint")
+    add_custom_target (lint DEPENDS qml_lint)
+endif ()
+
+find_program (QMLFORMAT NAMES qmlformat)
+if (QMLFORMAT)
+    file (GLOB_RECURSE QML_SOURCES "${CMAKE_SOURCE_DIR}/App/Qml/*.qml")
+    if (QML_SOURCES)
+        if (TARGET format)
+            add_custom_target (qml_format
+                    COMMAND ${QMLFORMAT} -i ${QML_SOURCES}
+                    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+                    COMMENT "Formatting QML with qmlformat")
+            add_dependencies (format qml_format)
+        else ()
+            add_custom_target (format
+                    COMMAND ${QMLFORMAT} -i ${QML_SOURCES}
+                    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+                    COMMENT "Formatting QML with qmlformat")
+        endif ()
+    endif ()
+endif ()
